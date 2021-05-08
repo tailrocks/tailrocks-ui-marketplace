@@ -19,5 +19,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.tailrocks.example.api.ExampleApiApplication")
+    mainClass.set("com.tailrocks.marketplace.api.MarketplaceApiApplication")
 }
