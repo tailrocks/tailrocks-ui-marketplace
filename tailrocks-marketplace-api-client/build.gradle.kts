@@ -8,14 +8,13 @@ micronaut {
     version(Versions.micronaut)
     processing {
         incremental(true)
-        // FIXME replace package name
-        annotations("com.tailrocks.example.api.*")
+        annotations("com.tailrocks.marketplace.api.*")
     }
 }
 
 dependencies {
     // subprojects
-    api(project(":tailrocks-example-grpc-interface"))
+    api(project(":tailrocks-marketplace-grpc-interface"))
 
     // Logback
     api("ch.qos.logback:logback-classic")

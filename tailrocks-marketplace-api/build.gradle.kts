@@ -7,14 +7,13 @@ micronaut {
     runtime("netty")
     processing {
         incremental(true)
-        // FIXME replace package name
-        annotations("com.tailrocks.example.api.*")
+        annotations("com.tailrocks.marketplace.api.*")
     }
 }
 
 dependencies {
     // subprojects
-    api(project(":tailrocks-example-grpc-interface"))
+    api(project(":tailrocks-marketplace-grpc-interface"))
 
     // tailrocks
     // FIXME replace with real dependency

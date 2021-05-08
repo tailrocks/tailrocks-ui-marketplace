@@ -13,8 +13,7 @@ micronaut {
     enableNativeImage(false)
     processing {
         incremental(true)
-        // FIXME replace package name
-        annotations("com.tailrocks.example.api.*")
+        annotations("com.tailrocks.marketplace.api.*")
     }
 }
 

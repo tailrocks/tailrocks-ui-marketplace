@@ -16,19 +16,17 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 }
 
-// FIXME replace tailrocks-example with microservice name, for example tailrocks-payment
-rootProject.name = "tailrocks-example"
+rootProject.name = "tailrocks-marketplace"
 
-// FIXME replace tailrocks-example with microservice prefix and don't forget rename folders
 include(
     // libraries
-    ":tailrocks-example-api",
-    ":tailrocks-example-api-client",
-    ":tailrocks-example-grpc-interface",
+    ":tailrocks-marketplace-api",
+    ":tailrocks-marketplace-api-client",
+    ":tailrocks-marketplace-grpc-interface",
 
     // apps
-    ":tailrocks-example-api-app",
+    ":tailrocks-marketplace-api-app",
 
     // tests
-    ":tailrocks-example-api-test"
+    ":tailrocks-marketplace-api-test"
 )

@@ -9,14 +9,13 @@ micronaut {
     enableNativeImage(true)
     processing {
         incremental(true)
-        // FIXME replace package name
-        annotations("com.tailrocks.example.api.*")
+        annotations("com.tailrocks.marketplace.api.*")
     }
 }
 
 dependencies {
     // subprojects
-    implementation(project(":tailrocks-example-api"))
+    implementation(project(":tailrocks-marketplace-api"))
 }
 
 application {

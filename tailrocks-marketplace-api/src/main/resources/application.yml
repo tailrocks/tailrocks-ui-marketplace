@@ -1,0 +1,31 @@
+micronaut:
+  application:
+    name: tailrocks-marketplace-api
+  server:
+    port: 6004
+datasources:
+  default:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:19001/tailrocks_marketplace_dev
+    username: postgres
+    password: root
+flyway:
+  datasources:
+    default:
+      enabled: true
+    testing:
+      enabled: true
+      url: jdbc:postgresql://127.0.0.1:19001/tailrocks_marketplace_dev?currentSchema=test
+      username: postgres
+      password: root
+grpc:
+  server:
+    port: 16004
+  client:
+    plaintext: true
+    max-retry-attempts: 10
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+    details-visible: anonymous
