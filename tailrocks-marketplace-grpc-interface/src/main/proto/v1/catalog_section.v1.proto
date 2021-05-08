@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package com.tailrocks.marketplace.grpc.v1.catalog.section;
+
+import "google/protobuf/wrappers.proto";
+import "validate/validate.proto";
+
+option java_multiple_files = true;
+
+service CatalogSectionService {
+  // Find catalog section list by criteria.
+  rpc find (FindCatalogSectionRequest) returns (CatalogSectionListResponse);
+
+  // Create list of catalog sections by inputs.
+  rpc create (CreateCatalogSectionRequest) returns (CatalogSectionListResponse);
+}
+
+/*
+ * REQUESTS
+ */
+
+message FindCatalogSectionRequest {
+  // List of criteria items.
+  repeated Criteria criteria = 1;
+
+  message Criteria {
+    // The slug.
+    repeated string slug = 1;
+  }
+}
+
+message CreateCatalogSectionRequest {
+  // Input items.
+  repeated CatalogSectionInput item = 1 [
+    (validate.rules).repeated.min_items = 1
+  ];
+}
+
+/*
+ * INPUTS
+ */
+
+message CatalogSectionInput {
+  // The slug.
+  google.protobuf.StringValue slug = 1 [
+    (validate.rules).message.required = true
+  ];
+
+  // The name.
+  google.protobuf.StringValue name = 2 [
+    (validate.rules).message.required = true
+  ];
+
+  // The description.
+  google.protobuf.StringValue description = 3;
+
+  // The sort order.
+  google.protobuf.UInt32Value sort_order = 4 [
+    (validate.rules).uint32.gte = 0
+  ];
+
+  // The avatar.
+  IconInput icon = 6;
+}
+
+message IconInput {
+  google.protobuf.StringValue url = 1 [
+    (validate.rules).message.required = true
+  ];
+
+  google.protobuf.UInt32Value width = 2 [
+    (validate.rules).message.required = true,
+    (validate.rules).uint32.gt = 0
+  ];
+
+  google.protobuf.UInt32Value height = 3 [
+    (validate.rules).message.required = true,
+    (validate.rules).uint32.gt = 0
+  ];
+}
+
+/*
+ * RESPONSES
+ */
+
+message CatalogSectionListResponse {
+  // Catalog Section list.
+  repeated CatalogSection item = 1;
+}
+
+/*
+ * ENTITIES
+ */
+
+message CatalogSection {
+  // Unique identifier for the object.
+  uint64 id = 1;
+  // The slug.
+  string slug = 2;
+  // The name.
+  string name = 3;
+  // The icon.
+  Icon icon = 4;
+  // The description.
+  google.protobuf.StringValue description = 5;
+  // The sort order.
+  uint64 sort_order = 6;
+}
+
+message Icon {
+  google.protobuf.StringValue url = 1;
+  google.protobuf.UInt32Value width = 2;
+  google.protobuf.UInt32Value height = 3;
+}

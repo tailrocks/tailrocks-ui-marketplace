@@ -19,8 +19,8 @@ micronaut {
 
 dependencies {
     // subprojects
-    implementation(project(":tailrocks-example-api"))
-    implementation(project(":tailrocks-example-api-client"))
+    implementation(project(":tailrocks-marketplace-api"))
+    implementation(project(":tailrocks-marketplace-api-client"))
 
     // Micronaut
     implementation(enforcedPlatform("io.micronaut.test:micronaut-test-bom:2.3.4-SNAPSHOT")) // TODO remove later

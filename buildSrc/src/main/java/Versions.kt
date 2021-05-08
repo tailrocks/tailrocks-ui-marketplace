@@ -51,10 +51,10 @@ object Versions {
     const val jambalayaMicronautMapstructProtobuf = "0.2.0"
     const val jambalayaProtobuf = "0.3.0"
 
-    const val tailrocksExampleJooq = "1.0.0"
+    const val tailrocksMarketplaceJooq = "1.0.0"
 
     // Project
 
-    const val tailrocksExample = "1.0.0"
+    const val tailrocksMarketplace = "1.0.0"
 
 }

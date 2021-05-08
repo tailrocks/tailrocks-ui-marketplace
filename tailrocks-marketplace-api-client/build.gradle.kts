@@ -2,7 +2,7 @@ plugins {
     id("io.micronaut.library") version Versions.gradleMicronautPlugin
 }
 
-version = Versions.tailrocksExample
+version = Versions.tailrocksMarketplace
 
 micronaut {
     version(Versions.micronaut)

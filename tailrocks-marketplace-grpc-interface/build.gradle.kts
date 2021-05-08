@@ -9,7 +9,7 @@ plugins {
     id("com.google.protobuf") version Versions.gradleProtobufPlugin
 }
 
-version = Versions.tailrocksExample
+version = Versions.tailrocksMarketplace
 
 java {
     withJavadocJar()

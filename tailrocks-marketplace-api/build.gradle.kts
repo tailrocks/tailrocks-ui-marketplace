@@ -16,8 +16,7 @@ dependencies {
     api(project(":tailrocks-marketplace-grpc-interface"))
 
     // tailrocks
-    // FIXME replace with real dependency
-    api("com.tailrocks.domain:tailrocks-example-jooq:${Versions.tailrocksExampleJooq}")
+    api("com.tailrocks.domain:tailrocks-marketplace-jooq:${Versions.tailrocksMarketplaceJooq}")
 
     // Micronaut
     annotationProcessor("io.micronaut.data:micronaut-data-processor")

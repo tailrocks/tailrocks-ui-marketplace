@@ -20,8 +20,7 @@ allprojects {
 
     apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
 
-    // FIXME replace with your company's package
-    group = "com.tailrocks.example"
+    group = "com.tailrocks.marketplace"
 
     idea {
         module {
@@ -46,10 +45,9 @@ allprojects {
     }
 }
 
-// FIXME replace with modules with correct name
 val publishingProjects = setOf(
-    "tailrocks-example-api-client",
-    "tailrocks-example-grpc-interface"
+    "tailrocks-marketplace-api-client",
+    "tailrocks-marketplace-grpc-interface"
 )
 
 subprojects {

@@ -1,4 +1,3 @@
 /*
- * FIXME replace with the text from your license
- * The text of the license.
+ * Copyright 2021 Alexey Zhokhov
  */
