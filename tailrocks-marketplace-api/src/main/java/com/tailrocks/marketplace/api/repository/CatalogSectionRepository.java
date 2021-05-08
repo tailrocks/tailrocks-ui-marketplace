@@ -53,13 +53,13 @@ public class CatalogSectionRepository extends AbstractRepository {
     @Transactional
     public CatalogSectionRecord create(
             @NonNull Tenant tenant,
-            @NonNull CatalogSectionInput paymentMethodInput
+            @NonNull CatalogSectionInput catalogSectionInput
     ) {
         checkNotNull(tenant, "tenant");
-        checkNotNull(paymentMethodInput, "paymentMethodInput");
+        checkNotNull(catalogSectionInput, "catalogSectionInput");
 
         CatalogSectionRecord item = catalogSectionMapper.toCatalogSectionRecord(
-                paymentMethodInput,
+                catalogSectionInput,
                 getDslContext(tenant).newRecord(CATALOG_SECTION)
         );
 

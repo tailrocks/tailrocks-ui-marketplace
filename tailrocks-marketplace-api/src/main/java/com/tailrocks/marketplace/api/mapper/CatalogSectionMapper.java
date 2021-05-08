@@ -23,13 +23,12 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         uses = {
-                ProtobufConvertersMapper.class
+                ProtobufConvertersMapper.class,
+                ImageMapper.class
         }
 )
 public interface CatalogSectionMapper {
 
-    // mapping
-    @Mapping(target = "icon", ignore = true) // TODO
     CatalogSection toCatalogSection(CatalogSectionRecord catalogSectionRecord);
 
     // ignore
@@ -37,7 +36,6 @@ public interface CatalogSectionMapper {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "lastModifiedDate", ignore = true)
     @Mapping(target = "version", ignore = true)
-    @Mapping(target = "icon", ignore = true) // TODO
     CatalogSectionRecord toCatalogSectionRecord(CatalogSectionInput catalogSectionInput,
                                                 @MappingTarget CatalogSectionRecord catalogSectionRecord);
 

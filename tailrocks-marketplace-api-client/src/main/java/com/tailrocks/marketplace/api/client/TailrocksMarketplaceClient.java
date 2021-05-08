@@ -46,10 +46,10 @@ public class TailrocksMarketplaceClient extends AbstractClient {
     public CatalogSection createCatalogSection(
             String slug, String name, String description, int sortOrder, IconInput icon, String tenant
     ) {
-        return createPaymentMethodWithResponse(slug, name, description, sortOrder, icon, tenant).getItem(0);
+        return createCatalogSectionWithResponse(slug, name, description, sortOrder, icon, tenant).getItem(0);
     }
 
-    public CatalogSectionListResponse createPaymentMethodWithResponse(
+    public CatalogSectionListResponse createCatalogSectionWithResponse(
             String slug, String name, String description, int sortOrder, IconInput icon, String tenant
     ) {
         CatalogSectionInput.Builder inputBuilder = CatalogSectionInput.newBuilder()
