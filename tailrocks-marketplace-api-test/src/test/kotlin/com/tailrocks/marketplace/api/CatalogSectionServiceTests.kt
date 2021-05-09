@@ -77,11 +77,11 @@ class CatalogSectionServiceTests(
         @Test
         fun `can find just created catalog section`() {
             // WHEN:
-            val response = tailrocksMarketplaceClient.findCatalogSectionBySlugWithResponse(givenSlug, null)
+            val response = tailrocksMarketplaceClient.findCatalogSectionBySlug(givenSlug, null)
 
             // THEN: a one card will be returned
-            response.itemCount shouldBe 1
-            response.getItem(0).also {
+            response.isPresent.shouldBeTrue()
+            response.get().also {
                 it.id shouldBeGreaterThan 0
                 it.slug shouldBe givenSlug
                 it.name shouldBe givenName

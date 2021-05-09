@@ -29,19 +29,17 @@ public class TailrocksMarketplaceClient extends AbstractClient {
     }
 
     public Optional<CatalogSection> findCatalogSectionBySlug(String slug, String tenant) {
-        return returnSingle(findCatalogSectionBySlugWithResponse(slug, tenant));
-    }
-
-    public CatalogSectionListResponse findCatalogSectionBySlugWithResponse(String slug, String tenant) {
-        return catalogSectionServiceBlockingStub
-                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
-                .find(
-                        FindCatalogSectionRequest.newBuilder()
-                                .addCriteria(FindCatalogSectionRequest.Criteria.newBuilder()
-                                        .addSlug(slug)
-                                        .build())
-                                .build()
-                );
+        return returnSingle(
+                catalogSectionServiceBlockingStub
+                        .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
+                        .find(
+                                FindCatalogSectionRequest.newBuilder()
+                                        .addCriteria(FindCatalogSectionRequest.Criteria.newBuilder()
+                                                .addSlug(slug)
+                                                .build())
+                                        .build()
+                        )
+        );
     }
 
     public List<CatalogSection> findAll(String tenant) {
