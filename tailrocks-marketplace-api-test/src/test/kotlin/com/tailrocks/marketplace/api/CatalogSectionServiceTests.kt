@@ -9,6 +9,7 @@ import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
 import com.tailrocks.marketplace.api.repository.CatalogSectionRepository
 import com.tailrocks.marketplace.api.tenant.Tenant
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput
+import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.longs.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -94,6 +95,71 @@ class CatalogSectionServiceTests(
             }
         }
 
+    }
+
+    @Test
+    fun `create with only required values`() {
+        // GIVEN:
+        catalogSectionRepository.deleteAll(Tenant.TESTING)
+
+        val givenSlug = "hero"
+        val givenName = "Hero"
+
+        // WHEN:
+        val item = tailrocksMarketplaceClient.createCatalogSection(
+            givenSlug, givenName, null, null, null, null
+        )
+
+        // THEN:
+        item.also {
+            it.id shouldBeGreaterThan 0
+            it.slug shouldBe givenSlug
+            it.name shouldBe givenName
+            it.icon.apply {
+                hasUrl().shouldBeFalse()
+                hasWidth().shouldBeFalse()
+                hasHeight().shouldBeFalse()
+            }
+            it.hasDescription().shouldBeFalse()
+            it.sortOrder shouldBe 0
+        }
+    }
+
+    @Test
+    fun `find all`() {
+        // GIVEN:
+        catalogSectionRepository.deleteAll(Tenant.TESTING)
+
+        val item1 = tailrocksMarketplaceClient.createCatalogSection(
+            "hero", "Hero", null, 0, null, null
+        )
+        val item2 = tailrocksMarketplaceClient.createCatalogSection(
+            "features", "Features", null, 1, null, null
+        )
+        val item3 = tailrocksMarketplaceClient.createCatalogSection(
+            "testimonials", "Testimonials", null, null, null, null
+        )
+
+        // WHEN:
+        val response = tailrocksMarketplaceClient.findAll(null)
+
+        // THEN:
+        response.size shouldBe 3
+
+        response[0].also {
+            it.slug shouldBe item1.slug
+            it.sortOrder shouldBe item1.sortOrder
+        }
+
+        response[1].also {
+            it.slug shouldBe item2.slug
+            it.sortOrder shouldBe item2.sortOrder
+        }
+
+        response[2].also {
+            it.slug shouldBe item3.slug
+            it.sortOrder shouldBe item3.sortOrder
+        }
     }
 
 }

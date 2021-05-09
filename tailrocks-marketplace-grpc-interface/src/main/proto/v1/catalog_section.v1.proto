@@ -111,7 +111,7 @@ message CatalogSection {
   // The description.
   google.protobuf.StringValue description = 5;
   // The sort order.
-  uint64 sort_order = 6;
+  uint32 sort_order = 6;
 }
 
 message Icon {

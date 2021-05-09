@@ -50,6 +50,21 @@ public class CatalogSectionRepository extends AbstractRepository {
                 .fetch();
     }
 
+    @ReadOnly
+    public int getMaxSortOrder(@NonNull Tenant tenant) {
+        return getDslContext(tenant)
+                .select(DSL.max(CATALOG_SECTION.SORT_ORDER))
+                .from(CATALOG_SECTION)
+                .fetchOptional()
+                .map(it -> {
+                    if (it.value1() == null) {
+                        return 0;
+                    }
+                    return it.value1() + 1;
+                })
+                .orElse(0);
+    }
+
     @Transactional
     public CatalogSectionRecord create(
             @NonNull Tenant tenant,
@@ -62,6 +77,10 @@ public class CatalogSectionRepository extends AbstractRepository {
                 catalogSectionInput,
                 getDslContext(tenant).newRecord(CATALOG_SECTION)
         );
+
+        if (!catalogSectionInput.hasSortOrder()) {
+            item.setSortOrder(getMaxSortOrder(tenant));
+        }
 
         item.store();
 

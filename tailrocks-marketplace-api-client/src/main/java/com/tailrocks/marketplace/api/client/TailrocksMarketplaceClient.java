@@ -56,15 +56,18 @@ public class TailrocksMarketplaceClient extends AbstractClient {
     }
 
     public CatalogSection createCatalogSection(
-            String slug, String name, String description, int sortOrder, IconInput icon, String tenant
+            String slug, String name, String description, Integer sortOrder, IconInput icon, String tenant
     ) {
         CatalogSectionInput.Builder inputBuilder = CatalogSectionInput.newBuilder()
                 .setSlug(StringValue.of(slug))
-                .setName(StringValue.of(name))
-                .setSortOrder(UInt32Value.of(sortOrder));
+                .setName(StringValue.of(name));
 
         if (description != null) {
             inputBuilder.setDescription(StringValue.of(description));
+        }
+
+        if (sortOrder != null) {
+            inputBuilder.setSortOrder(UInt32Value.of(sortOrder));
         }
 
         if (icon != null) {
