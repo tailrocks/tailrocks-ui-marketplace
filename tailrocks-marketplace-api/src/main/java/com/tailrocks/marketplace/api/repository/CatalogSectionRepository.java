@@ -70,6 +70,17 @@ public class CatalogSectionRepository extends AbstractRepository {
         return item;
     }
 
+    @Transactional
+    public void deleteAll(@NonNull Tenant tenant) {
+        LOG.warn("Deleting all");
+
+        int records = getDslContext(tenant)
+                .delete(CATALOG_SECTION)
+                .execute();
+
+        LOG.info("Deleted {} records", records);
+    }
+
     private Condition generateFindCondition(List<FindCatalogSectionRequest.Criteria> criteriaList) {
         Condition result = DSL.noCondition();
 

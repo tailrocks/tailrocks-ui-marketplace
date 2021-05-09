@@ -14,6 +14,7 @@ import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionReque
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput;
 
 import javax.inject.Singleton;
+import java.util.List;
 import java.util.Optional;
 
 @Singleton
@@ -28,7 +29,7 @@ public class TailrocksMarketplaceClient extends AbstractClient {
     }
 
     public Optional<CatalogSection> findCatalogSectionBySlug(String slug, String tenant) {
-        return returnFirst(findCatalogSectionBySlugWithResponse(slug, tenant));
+        return returnSingle(findCatalogSectionBySlugWithResponse(slug, tenant));
     }
 
     public CatalogSectionListResponse findCatalogSectionBySlugWithResponse(String slug, String tenant) {
@@ -43,13 +44,18 @@ public class TailrocksMarketplaceClient extends AbstractClient {
                 );
     }
 
-    public CatalogSection createCatalogSection(
-            String slug, String name, String description, int sortOrder, IconInput icon, String tenant
-    ) {
-        return createCatalogSectionWithResponse(slug, name, description, sortOrder, icon, tenant).getItem(0);
+    public List<CatalogSection> findAll(String tenant) {
+        return catalogSectionServiceBlockingStub
+                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
+                .find(
+                        FindCatalogSectionRequest.newBuilder()
+                                .setSort(FindCatalogSectionRequest.Sort.SORT_ORDER_ASC)
+                                .build()
+                )
+                .getItemList();
     }
 
-    public CatalogSectionListResponse createCatalogSectionWithResponse(
+    public CatalogSection createCatalogSection(
             String slug, String name, String description, int sortOrder, IconInput icon, String tenant
     ) {
         CatalogSectionInput.Builder inputBuilder = CatalogSectionInput.newBuilder()
@@ -71,12 +77,20 @@ public class TailrocksMarketplaceClient extends AbstractClient {
                         CreateCatalogSectionRequest.newBuilder()
                                 .addItem(inputBuilder.build())
                                 .build()
-                );
+                )
+                .getItem(0);
     }
 
-    private Optional<CatalogSection> returnFirst(CatalogSectionListResponse response) {
+    private CatalogSection mustReturnSingle(CatalogSectionListResponse response) {
+        if (response.getItemCount() != 1) {
+            throw new RuntimeException("Incorrect item count. Muse be 1 not " + response.getItemCount());
+        }
+        return response.getItem(0);
+    }
+
+    private Optional<CatalogSection> returnSingle(CatalogSectionListResponse response) {
         if (response.getItemCount() > 0) {
-            return Optional.of(response.getItem(0));
+            return Optional.of(mustReturnSingle(response));
         } else {
             return Optional.empty();
         }

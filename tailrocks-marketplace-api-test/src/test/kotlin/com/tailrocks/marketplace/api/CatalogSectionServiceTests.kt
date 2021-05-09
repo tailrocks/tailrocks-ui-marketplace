@@ -6,6 +6,8 @@ package com.tailrocks.marketplace.api
 import com.google.protobuf.StringValue
 import com.google.protobuf.UInt32Value
 import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
+import com.tailrocks.marketplace.api.repository.CatalogSectionRepository
+import com.tailrocks.marketplace.api.tenant.Tenant
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.longs.shouldBeGreaterThan
@@ -17,7 +19,8 @@ import java.util.*
 
 @MicronautTest(transactional = false)
 class CatalogSectionServiceTests(
-    private val tailrocksMarketplaceClient: TailrocksMarketplaceClient
+    private val tailrocksMarketplaceClient: TailrocksMarketplaceClient,
+    private val catalogSectionRepository: CatalogSectionRepository
 ) {
 
     @Nested
@@ -34,7 +37,9 @@ class CatalogSectionServiceTests(
 
         init {
             // WHEN:
-            val response = tailrocksMarketplaceClient.createCatalogSectionWithResponse(
+            catalogSectionRepository.deleteAll(Tenant.TESTING)
+
+            val item = tailrocksMarketplaceClient.createCatalogSection(
                 givenSlug, givenName, givenDescription, givenSortOrder,
                 IconInput.newBuilder()
                     .setUrl(StringValue.of(givenIconUrl))
@@ -45,8 +50,7 @@ class CatalogSectionServiceTests(
             )
 
             // THEN:
-            response.itemCount shouldBe 1
-            response.getItem(0).also {
+            item.also {
                 it.id shouldBeGreaterThan 0
                 it.slug shouldBe givenSlug
                 it.name shouldBe givenName

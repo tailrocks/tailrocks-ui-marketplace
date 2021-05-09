@@ -27,6 +27,13 @@ message FindCatalogSectionRequest {
     // The slug.
     repeated string slug = 1;
   }
+
+  Sort sort = 3;
+
+  enum Sort {
+    SORT_UNDEFINED = 0;
+    SORT_ORDER_ASC = 1;
+  }
 }
 
 message CreateCatalogSectionRequest {
