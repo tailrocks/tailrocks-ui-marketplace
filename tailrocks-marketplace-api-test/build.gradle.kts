@@ -23,7 +23,6 @@ dependencies {
     implementation(project(":tailrocks-marketplace-api-client"))
 
     // Micronaut
-    implementation(enforcedPlatform("io.micronaut.test:micronaut-test-bom:2.3.4-SNAPSHOT")) // TODO remove later
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     kapt(enforcedPlatform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
