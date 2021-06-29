@@ -46,11 +46,11 @@ public class ImageMapper {
         if (!iconInput.hasUrl()) {
             return null;
         }
-        Image image = new Image(
+        var image = new Image(
                 iconInput.getUrl().getValue(), iconInput.getWidth().getValue(), iconInput.getHeight().getValue()
         );
         try {
-            String json = objectMapper.writeValueAsString(image);
+            var json = objectMapper.writeValueAsString(image);
             return JSONB.jsonb(json);
         } catch (JsonProcessingException ignored) {
             return null;
@@ -62,7 +62,7 @@ public class ImageMapper {
             return Icon.getDefaultInstance();
         }
         try {
-            Image image = objectMapper.readValue(jsonb.data(), Image.class);
+            var image = objectMapper.readValue(jsonb.data(), Image.class);
 
             return Icon.newBuilder()
                     .setUrl(StringValue.of(image.getUrl()))

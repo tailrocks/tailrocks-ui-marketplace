@@ -7,24 +7,33 @@ import com.google.protobuf.StringValue
 import com.google.protobuf.UInt32Value
 import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
 import com.tailrocks.marketplace.api.repository.CatalogSectionRepository
-import com.tailrocks.marketplace.api.tenant.Tenant
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryExtension
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
+import com.zhokhov.jambalaya.tenancy.TenancyUtils.runWithTestingTenant
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.longs.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
 
 @MicronautTest(transactional = false)
+@ExtendWith(OpenTelemetryExtension::class)
 class CatalogSectionServiceTests(
     private val tailrocksMarketplaceClient: TailrocksMarketplaceClient,
     private val catalogSectionRepository: CatalogSectionRepository
 ) {
 
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class Create {
 
         // GIVEN:
@@ -36,62 +45,66 @@ class CatalogSectionServiceTests(
         private val givenIconWidth = 200
         private val givenIconHeight = 150
 
-        init {
-            // WHEN:
-            catalogSectionRepository.deleteAll(Tenant.TESTING)
-
-            val item = tailrocksMarketplaceClient.createCatalogSection(
-                givenSlug, givenName, givenDescription, givenSortOrder,
-                IconInput.newBuilder()
-                    .setUrl(StringValue.of(givenIconUrl))
-                    .setWidth(UInt32Value.of(givenIconWidth))
-                    .setHeight(UInt32Value.of(givenIconHeight))
-                    .build(),
-                null
-            )
-
-            // THEN:
-            item.also {
-                it.id shouldBeGreaterThan 0
-                it.slug shouldBe givenSlug
-                it.name shouldBe givenName
-                it.icon.apply {
-                    url.value shouldBe givenIconUrl
-                    width.value shouldBe givenIconWidth
-                    height.value shouldBe givenIconHeight
+        @BeforeEach
+        fun init() {
+            val item = WHEN_ {
+                runWithTestingTenant {
+                    catalogSectionRepository.deleteAll()
                 }
-                it.description.value shouldBe givenDescription
-                it.sortOrder shouldBe givenSortOrder
+
+                tailrocksMarketplaceClient.createCatalogSection(
+                    givenSlug, givenName, givenDescription, givenSortOrder,
+                    IconInput.newBuilder()
+                        .setUrl(StringValue.of(givenIconUrl))
+                        .setWidth(UInt32Value.of(givenIconWidth))
+                        .setHeight(UInt32Value.of(givenIconHeight))
+                        .build()
+                )
+            }
+
+            THEN {
+                item.also {
+                    it.id shouldBeGreaterThan 0
+                    it.slug shouldBe givenSlug
+                    it.name shouldBe givenName
+                    it.icon.apply {
+                        url.value shouldBe givenIconUrl
+                        width.value shouldBe givenIconWidth
+                        height.value shouldBe givenIconHeight
+                    }
+                    it.description.value shouldBe givenDescription
+                    it.sortOrder shouldBe givenSortOrder
+                }
             }
         }
 
         @Test
         fun `can not find unknown slug`() {
-            // WHEN:
-            val card = tailrocksMarketplaceClient.findCatalogSectionBySlug("unknown_slug", null)
+            val card = WHEN_ { tailrocksMarketplaceClient.findCatalogSectionBySlug("unknown_slug") }
 
-            // THEN: an empty optional will be returned
-            card.isEmpty.shouldBeTrue()
+            THEN("an empty optional will be returned") {
+                card.isEmpty.shouldBeTrue()
+            }
         }
 
         @Test
         fun `can find just created catalog section`() {
-            // WHEN:
-            val response = tailrocksMarketplaceClient.findCatalogSectionBySlug(givenSlug, null)
+            val response = WHEN_ { tailrocksMarketplaceClient.findCatalogSectionBySlug(givenSlug) }
 
-            // THEN: a one card will be returned
-            response.isPresent.shouldBeTrue()
-            response.get().also {
-                it.id shouldBeGreaterThan 0
-                it.slug shouldBe givenSlug
-                it.name shouldBe givenName
-                it.icon.apply {
-                    url.value shouldBe givenIconUrl
-                    width.value shouldBe givenIconWidth
-                    height.value shouldBe givenIconHeight
+            THEN("a one card will be returned") {
+                response.isPresent.shouldBeTrue()
+                response.get().also {
+                    it.id shouldBeGreaterThan 0
+                    it.slug shouldBe givenSlug
+                    it.name shouldBe givenName
+                    it.icon.apply {
+                        url.value shouldBe givenIconUrl
+                        width.value shouldBe givenIconWidth
+                        height.value shouldBe givenIconHeight
+                    }
+                    it.description.value shouldBe givenDescription
+                    it.sortOrder shouldBe givenSortOrder
                 }
-                it.description.value shouldBe givenDescription
-                it.sortOrder shouldBe givenSortOrder
             }
         }
 
@@ -99,66 +112,76 @@ class CatalogSectionServiceTests(
 
     @Test
     fun `create with only required values`() {
-        // GIVEN:
-        catalogSectionRepository.deleteAll(Tenant.TESTING)
-
-        val givenSlug = "hero"
-        val givenName = "Hero"
-
-        // WHEN:
-        val item = tailrocksMarketplaceClient.createCatalogSection(
-            givenSlug, givenName, null, null, null, null
-        )
-
-        // THEN:
-        item.also {
-            it.id shouldBeGreaterThan 0
-            it.slug shouldBe givenSlug
-            it.name shouldBe givenName
-            it.icon.apply {
-                hasUrl().shouldBeFalse()
-                hasWidth().shouldBeFalse()
-                hasHeight().shouldBeFalse()
+        GIVEN {
+            runWithTestingTenant {
+                catalogSectionRepository.deleteAll()
             }
-            it.hasDescription().shouldBeFalse()
-            it.sortOrder shouldBe 0
+        }
+
+        WHEN_ {
+            val givenSlug = "hero"
+            val givenName = "Hero"
+
+            val item = tailrocksMarketplaceClient.createCatalogSection(
+                givenSlug, givenName, null, null, null
+            )
+
+            THEN {
+                item.also {
+                    it.id shouldBeGreaterThan 0
+                    it.slug shouldBe givenSlug
+                    it.name shouldBe givenName
+                    it.icon.apply {
+                        hasUrl().shouldBeFalse()
+                        hasWidth().shouldBeFalse()
+                        hasHeight().shouldBeFalse()
+                    }
+                    it.hasDescription().shouldBeFalse()
+                    it.sortOrder shouldBe 0
+                }
+            }
         }
     }
 
     @Test
     fun `find all`() {
-        // GIVEN:
-        catalogSectionRepository.deleteAll(Tenant.TESTING)
-
-        val item1 = tailrocksMarketplaceClient.createCatalogSection(
-            "hero", "Hero", null, 0, null, null
-        )
-        val item2 = tailrocksMarketplaceClient.createCatalogSection(
-            "features", "Features", null, 1, null, null
-        )
-        val item3 = tailrocksMarketplaceClient.createCatalogSection(
-            "testimonials", "Testimonials", null, null, null, null
-        )
-
-        // WHEN:
-        val response = tailrocksMarketplaceClient.findAll(null)
-
-        // THEN:
-        response.size shouldBe 3
-
-        response[0].also {
-            it.slug shouldBe item1.slug
-            it.sortOrder shouldBe item1.sortOrder
+        GIVEN {
+            runWithTestingTenant {
+                catalogSectionRepository.deleteAll()
+            }
         }
 
-        response[1].also {
-            it.slug shouldBe item2.slug
-            it.sortOrder shouldBe item2.sortOrder
-        }
+        WHEN_ {
+            val item1 = tailrocksMarketplaceClient.createCatalogSection(
+                "hero", "Hero", null, 0, null
+            )
+            val item2 = tailrocksMarketplaceClient.createCatalogSection(
+                "features", "Features", null, 1, null
+            )
+            val item3 = tailrocksMarketplaceClient.createCatalogSection(
+                "testimonials", "Testimonials", null, null, null
+            )
 
-        response[2].also {
-            it.slug shouldBe item3.slug
-            it.sortOrder shouldBe item3.sortOrder
+            val response = tailrocksMarketplaceClient.findAll()
+
+            THEN {
+                response.size shouldBe 3
+
+                response[0].also {
+                    it.slug shouldBe item1.slug
+                    it.sortOrder shouldBe item1.sortOrder
+                }
+
+                response[1].also {
+                    it.slug shouldBe item2.slug
+                    it.sortOrder shouldBe item2.sortOrder
+                }
+
+                response[2].also {
+                    it.slug shouldBe item3.slug
+                    it.sortOrder shouldBe item3.sortOrder
+                }
+            }
         }
     }
 

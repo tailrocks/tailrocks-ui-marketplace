@@ -5,8 +5,8 @@ micronaut:
     port: 6004
 datasources:
   default:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:19001/tailrocks_marketplace_dev
+    driver-class-name: io.opentelemetry.instrumentation.jdbc.OpenTelemetryDriver
+    url: jdbc:otel:postgresql://127.0.0.1:19001/tailrocks_marketplace_dev
     username: postgres
     password: root
 flyway:

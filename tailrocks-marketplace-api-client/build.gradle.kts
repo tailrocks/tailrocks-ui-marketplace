@@ -18,6 +18,9 @@ dependencies {
     // subprojects
     api(project(":tailrocks-marketplace-grpc-interface"))
 
+    // Jambalaya
+    api("io.github.expatiat.jambalaya:jambalaya-tenancy:${Versions.jambalayaTenancy}")
+
     // Logback
     api("ch.qos.logback:logback-classic")
 }

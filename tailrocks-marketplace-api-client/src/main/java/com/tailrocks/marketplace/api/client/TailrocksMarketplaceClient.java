@@ -7,20 +7,27 @@ import com.google.protobuf.StringValue;
 import com.google.protobuf.UInt32Value;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSection;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionInput;
-import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionListResponse;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CreateCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput;
+import io.micronaut.context.annotation.Value;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 
 import javax.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
 
+import static com.zhokhov.jambalaya.tenancy.TenancyUtils.callWithTenant;
+
 @Singleton
-public class TailrocksMarketplaceClient extends AbstractClient {
+public class TailrocksMarketplaceClient {
 
     private final CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
+
+    @Value("${tailrocks.client.marketplace.default-tenant:}")
+    String defaultTenant;
 
     public TailrocksMarketplaceClient(
             CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub
@@ -28,35 +35,35 @@ public class TailrocksMarketplaceClient extends AbstractClient {
         this.catalogSectionServiceBlockingStub = catalogSectionServiceBlockingStub;
     }
 
-    public Optional<CatalogSection> findCatalogSectionBySlug(String slug, String tenant) {
-        return returnSingle(
-                catalogSectionServiceBlockingStub
-                        .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
-                        .find(
-                                FindCatalogSectionRequest.newBuilder()
-                                        .addCriteria(FindCatalogSectionRequest.Criteria.newBuilder()
-                                                .addSlug(slug)
-                                                .build())
-                                        .build()
-                        )
+    public Optional<CatalogSection> findCatalogSectionBySlug(@NonNull String slug) {
+        return callWithTenant(defaultTenant, () -> catalogSectionServiceBlockingStub
+                .find(
+                        FindCatalogSectionRequest.newBuilder()
+                                .addCriteria(FindCatalogSectionRequest.Criteria.newBuilder()
+                                        .addSlug(slug)
+                                        .build())
+                                .build()
+                )
+                .getItemList().stream().findFirst()
         );
     }
 
-    public List<CatalogSection> findAll(String tenant) {
-        return catalogSectionServiceBlockingStub
-                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
+    public List<CatalogSection> findAll() {
+        return callWithTenant(defaultTenant, () -> catalogSectionServiceBlockingStub
                 .find(
                         FindCatalogSectionRequest.newBuilder()
                                 .setSort(FindCatalogSectionRequest.Sort.SORT_ORDER_ASC)
                                 .build()
                 )
-                .getItemList();
+                .getItemList()
+        );
     }
 
     public CatalogSection createCatalogSection(
-            String slug, String name, String description, Integer sortOrder, IconInput icon, String tenant
+            @NonNull String slug, @NonNull String name, @Nullable String description, @Nullable Integer sortOrder,
+            @Nullable IconInput icon
     ) {
-        CatalogSectionInput.Builder inputBuilder = CatalogSectionInput.newBuilder()
+        var inputBuilder = CatalogSectionInput.newBuilder()
                 .setSlug(StringValue.of(slug))
                 .setName(StringValue.of(name));
 
@@ -72,29 +79,14 @@ public class TailrocksMarketplaceClient extends AbstractClient {
             inputBuilder.setIcon(icon);
         }
 
-        return catalogSectionServiceBlockingStub
-                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
+        return callWithTenant(defaultTenant, () -> catalogSectionServiceBlockingStub
                 .create(
                         CreateCatalogSectionRequest.newBuilder()
                                 .addItem(inputBuilder.build())
                                 .build()
                 )
-                .getItem(0);
-    }
-
-    private CatalogSection mustReturnSingle(CatalogSectionListResponse response) {
-        if (response.getItemCount() != 1) {
-            throw new RuntimeException("Incorrect item count. Muse be 1 not " + response.getItemCount());
-        }
-        return response.getItem(0);
-    }
-
-    private Optional<CatalogSection> returnSingle(CatalogSectionListResponse response) {
-        if (response.getItemCount() > 0) {
-            return Optional.of(mustReturnSingle(response));
-        } else {
-            return Optional.empty();
-        }
+                .getItem(0)
+        );
     }
 
 }

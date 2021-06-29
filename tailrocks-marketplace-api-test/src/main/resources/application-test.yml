@@ -4,3 +4,7 @@ micronaut:
 grpc:
   server:
     port: ${random.port}
+tailrocks:
+  client:
+    marketplace:
+      default-tenant: testing

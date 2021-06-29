@@ -4,7 +4,6 @@
 package com.tailrocks.marketplace.api.repository;
 
 import com.tailrocks.marketplace.api.mapper.CatalogSectionMapper;
-import com.tailrocks.marketplace.api.tenant.Tenant;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionInput;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.jooq.tables.records.CatalogSectionRecord;
@@ -40,19 +39,18 @@ public class CatalogSectionRepository extends AbstractRepository {
     }
 
     @ReadOnly
-    public List<CatalogSectionRecord> find(@NonNull Tenant tenant, @NonNull FindCatalogSectionRequest request) {
-        checkNotNull(tenant, "tenant");
+    public List<CatalogSectionRecord> find(@NonNull FindCatalogSectionRequest request) {
         checkNotNull(request, "request");
 
-        return getDslContext(tenant)
+        return getDslContext()
                 .selectFrom(CATALOG_SECTION)
                 .where(generateFindCondition(request.getCriteriaList()))
                 .fetch();
     }
 
     @ReadOnly
-    public int getMaxSortOrder(@NonNull Tenant tenant) {
-        return getDslContext(tenant)
+    public int getMaxSortOrder() {
+        return getDslContext()
                 .select(DSL.max(CATALOG_SECTION.SORT_ORDER))
                 .from(CATALOG_SECTION)
                 .fetchOptional()
@@ -67,19 +65,17 @@ public class CatalogSectionRepository extends AbstractRepository {
 
     @Transactional
     public CatalogSectionRecord create(
-            @NonNull Tenant tenant,
             @NonNull CatalogSectionInput catalogSectionInput
     ) {
-        checkNotNull(tenant, "tenant");
         checkNotNull(catalogSectionInput, "catalogSectionInput");
 
         CatalogSectionRecord item = catalogSectionMapper.toCatalogSectionRecord(
                 catalogSectionInput,
-                getDslContext(tenant).newRecord(CATALOG_SECTION)
+                getDslContext().newRecord(CATALOG_SECTION)
         );
 
         if (!catalogSectionInput.hasSortOrder()) {
-            item.setSortOrder(getMaxSortOrder(tenant));
+            item.setSortOrder(getMaxSortOrder());
         }
 
         item.store();
@@ -90,10 +86,10 @@ public class CatalogSectionRepository extends AbstractRepository {
     }
 
     @Transactional
-    public void deleteAll(@NonNull Tenant tenant) {
+    public void deleteAll() {
         LOG.warn("Deleting all");
 
-        int records = getDslContext(tenant)
+        int records = getDslContext()
                 .delete(CATALOG_SECTION)
                 .execute();
 
@@ -101,7 +97,7 @@ public class CatalogSectionRepository extends AbstractRepository {
     }
 
     private Condition generateFindCondition(List<FindCatalogSectionRequest.Criteria> criteriaList) {
-        Condition result = DSL.noCondition();
+        var result = DSL.noCondition();
 
         for (FindCatalogSectionRequest.Criteria criteria : criteriaList) {
             result = result.or(generateCondition(criteria));
@@ -111,7 +107,7 @@ public class CatalogSectionRepository extends AbstractRepository {
     }
 
     private Condition generateCondition(FindCatalogSectionRequest.Criteria criteria) {
-        Condition result = noCondition();
+        var result = noCondition();
 
         if (criteria.getSlugCount() > 0) {
             result = result.and(CATALOG_SECTION.SLUG.in(criteria.getSlugList()));
