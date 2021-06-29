@@ -4,6 +4,7 @@
 package com.tailrocks.marketplace.api.test;
 
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc;
+import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
 import io.envoyproxy.pgv.ReflectiveValidatorIndex;
 import io.envoyproxy.pgv.ValidatorIndex;
 import io.envoyproxy.pgv.grpc.ValidatingClientInterceptor;
@@ -24,6 +25,15 @@ public class Clients {
             @GrpcChannel(GrpcServerChannel.NAME) ManagedChannel channel
     ) {
         return CatalogSectionServiceGrpc
+                .newBlockingStub(channel)
+                .withInterceptors(new ValidatingClientInterceptor(index));
+    }
+
+    @Bean
+    public TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub(
+            @GrpcChannel(GrpcServerChannel.NAME) ManagedChannel channel
+    ) {
+        return TenantServiceGrpc
                 .newBlockingStub(channel)
                 .withInterceptors(new ValidatingClientInterceptor(index));
     }

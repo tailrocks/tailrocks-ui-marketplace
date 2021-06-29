@@ -11,9 +11,15 @@ import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGr
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CreateCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput;
+import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
+import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
+import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
+import com.zhokhov.jambalaya.tenancy.TenancyUtils;
+import com.zhokhov.jambalaya.tenancy.Tenant;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.util.StringUtils;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -25,18 +31,33 @@ import static com.zhokhov.jambalaya.tenancy.TenancyUtils.callWithTenant;
 public class TailrocksMarketplaceClient {
 
     private final CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
+    private final TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub;
 
     @Value("${tailrocks.client.marketplace.default-tenant:}")
     String defaultTenant;
 
     public TailrocksMarketplaceClient(
-            CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub
+            CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub,
+            TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub
     ) {
         this.catalogSectionServiceBlockingStub = catalogSectionServiceBlockingStub;
+        this.tenantServiceBlockingStub = tenantServiceBlockingStub;
+    }
+
+    public void provisionTenant(@NonNull String name) {
+        tenantServiceBlockingStub.provision(ProvisionTenantRequest.newBuilder()
+                .setName(StringValue.of(name))
+                .build());
+    }
+
+    public void dropTenant(@NonNull String name) {
+        tenantServiceBlockingStub.drop(DropTenantRequest.newBuilder()
+                .setName(StringValue.of(name))
+                .build());
     }
 
     public Optional<CatalogSection> findCatalogSectionBySlug(@NonNull String slug) {
-        return callWithTenant(defaultTenant, () -> catalogSectionServiceBlockingStub
+        return callWithTenant(getTenantString(), () -> catalogSectionServiceBlockingStub
                 .find(
                         FindCatalogSectionRequest.newBuilder()
                                 .addCriteria(FindCatalogSectionRequest.Criteria.newBuilder()
@@ -48,8 +69,8 @@ public class TailrocksMarketplaceClient {
         );
     }
 
-    public List<CatalogSection> findAll() {
-        return callWithTenant(defaultTenant, () -> catalogSectionServiceBlockingStub
+    public List<CatalogSection> findAllCatalogSection() {
+        return callWithTenant(getTenantString(), () -> catalogSectionServiceBlockingStub
                 .find(
                         FindCatalogSectionRequest.newBuilder()
                                 .setSort(FindCatalogSectionRequest.Sort.SORT_ORDER_ASC)
@@ -79,7 +100,7 @@ public class TailrocksMarketplaceClient {
             inputBuilder.setIcon(icon);
         }
 
-        return callWithTenant(defaultTenant, () -> catalogSectionServiceBlockingStub
+        return callWithTenant(getTenantString(), () -> catalogSectionServiceBlockingStub
                 .create(
                         CreateCatalogSectionRequest.newBuilder()
                                 .addItem(inputBuilder.build())
@@ -87,6 +108,10 @@ public class TailrocksMarketplaceClient {
                 )
                 .getItem(0)
         );
+    }
+
+    private String getTenantString() {
+        return TenancyUtils.getTenantStringOrElse(StringUtils.hasText(defaultTenant) ? defaultTenant : Tenant.DEFAULT);
     }
 
 }

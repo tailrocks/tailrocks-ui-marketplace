@@ -162,7 +162,7 @@ class CatalogSectionServiceTests(
                 "testimonials", "Testimonials", null, null, null
             )
 
-            val response = tailrocksMarketplaceClient.findAll()
+            val response = tailrocksMarketplaceClient.findAllCatalogSection()
 
             THEN {
                 response.size shouldBe 3

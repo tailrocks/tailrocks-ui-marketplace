@@ -3,10 +3,11 @@
  */
 package com.tailrocks.marketplace.api.repository;
 
-import com.zhokhov.jambalaya.tenancy.TenancyUtils;
 import com.zhokhov.jambalaya.tenancy.Tenant;
 import io.micronaut.context.annotation.Property;
 import org.jooq.DSLContext;
+
+import static com.zhokhov.jambalaya.tenancy.TenancyUtils.getTenantOrThrow;
 
 // TODO move to jambalaya
 public abstract class AbstractRepository {
@@ -21,7 +22,7 @@ public abstract class AbstractRepository {
     }
 
     protected DSLContext getDslContext() {
-        String tenant = TenancyUtils.getOrThrow().getTenantByService(applicationName);
+        String tenant = getTenantOrThrow().getTenantByService(applicationName);
         dslContext.setSchema(getSchema(tenant)).execute();
         return dslContext;
     }
