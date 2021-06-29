@@ -69,7 +69,7 @@ public class CatalogSectionRepository extends AbstractRepository {
     ) {
         checkNotNull(catalogSectionInput, "catalogSectionInput");
 
-        CatalogSectionRecord item = catalogSectionMapper.toCatalogSectionRecord(
+        var item = catalogSectionMapper.toCatalogSectionRecord(
                 catalogSectionInput,
                 getDslContext().newRecord(CATALOG_SECTION)
         );
