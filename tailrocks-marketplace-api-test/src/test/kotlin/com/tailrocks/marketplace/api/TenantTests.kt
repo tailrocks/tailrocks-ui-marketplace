@@ -15,7 +15,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import java.util.*
+import java.lang.System.currentTimeMillis
 
 /**
  * @author Alexey Zhokhov
@@ -28,7 +28,7 @@ class TenantTests constructor(
 
     @Test
     fun `tenant provisioning`() {
-        val tenantName = "test${Date().time}"
+        val tenantName = "test${currentTimeMillis()}"
 
         GIVEN("tenant does not exist") {
             runWithTenant(tenantName) {

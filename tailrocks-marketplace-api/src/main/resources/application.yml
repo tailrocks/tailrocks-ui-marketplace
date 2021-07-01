@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: tailrocks-marketplace-api
+    name: tailrocks-marketplace
   server:
     port: 6004
 datasources:
