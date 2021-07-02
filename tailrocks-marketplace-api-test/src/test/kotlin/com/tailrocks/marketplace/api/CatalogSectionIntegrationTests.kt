@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import java.util.*
+import java.lang.System.currentTimeMillis
 
 @MicronautTest(transactional = false)
 @ExtendWith(OpenTelemetryExtension::class)
@@ -37,8 +37,8 @@ class CatalogSectionIntegrationTests(
     inner class Create {
 
         // GIVEN:
-        private val givenSlug = "myslug-${Date().time}"
-        private val givenName = "My Name ${Date().time}"
+        private val givenSlug = "myslug-${currentTimeMillis()}"
+        private val givenName = "My Name ${currentTimeMillis()}"
         private val givenDescription = "Some description."
         private val givenSortOrder = 1
         private val givenIconUrl = "https://tailrocks.com/image/1"
