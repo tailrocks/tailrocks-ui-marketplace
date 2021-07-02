@@ -27,20 +27,20 @@ public class Configuration {
     private final ValidatorIndex index = new ReflectiveValidatorIndex();
 
     @Singleton
-    public CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub(
-            @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
-    ) {
-        return CatalogSectionServiceGrpc
-                .newBlockingStub(channel)
-                .withInterceptors(new ValidatingClientInterceptor(index));
-    }
-
-    @Singleton
     @Named(TENANT_SERVICE_NAME)
     public TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub(
             @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
     ) {
         return TenantServiceGrpc
+                .newBlockingStub(channel)
+                .withInterceptors(new ValidatingClientInterceptor(index));
+    }
+
+    @Singleton
+    public CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub(
+            @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
+    ) {
+        return CatalogSectionServiceGrpc
                 .newBlockingStub(channel)
                 .withInterceptors(new ValidatingClientInterceptor(index));
     }
