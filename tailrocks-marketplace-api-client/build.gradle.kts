@@ -20,6 +20,7 @@ dependencies {
 
     // Jambalaya
     api("io.github.expatiat.jambalaya:jambalaya-tenancy:${Versions.jambalayaTenancy}")
+    api("io.github.expatiat.jambalaya:jambalaya-tenancy-grpc-interface:${Versions.jambalayaTenancyGrpcInterface}")
 
     // Logback
     api("ch.qos.logback:logback-classic")

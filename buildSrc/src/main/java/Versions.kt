@@ -53,6 +53,8 @@ object Versions {
     const val jambalayaProtobuf = "0.4.0"
     const val jambalayaTenancy = "0.4.0"
     const val jambalayaJunitOpentelemetry = "0.1.0"
+    const val jambalayaTenancyFlyway = "0.1.0"
+    const val jambalayaTenancyGrpcInterface = "0.1.0"
 
     const val tailrocksMarketplaceJooq = "1.0.0"
 

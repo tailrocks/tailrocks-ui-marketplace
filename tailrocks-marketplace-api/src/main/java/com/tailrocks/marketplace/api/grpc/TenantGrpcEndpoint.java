@@ -9,16 +9,12 @@ import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantResponse;
 import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
 import com.zhokhov.jambalaya.grpc.v1.tenant.TenantStatus;
+import com.zhokhov.jambalaya.tenancy.flyway.TenantFlywayMigrator;
 import io.grpc.stub.StreamObserver;
 import io.micronaut.context.annotation.Property;
-import io.micronaut.core.util.StringUtils;
-import org.flywaydb.core.api.configuration.FluentConfiguration;
-import org.flywaydb.core.internal.jdbc.DriverDataSource;
+import org.flywaydb.core.api.FlywayException;
 
 import javax.inject.Singleton;
-import javax.sql.DataSource;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 /**
@@ -27,46 +23,20 @@ import java.sql.SQLException;
 @Singleton
 public class TenantGrpcEndpoint extends TenantServiceGrpc.TenantServiceImplBase {
 
-    @Property(name = "datasources.default.url") String url;
-    @Property(name = "datasources.default.username") String username;
-    @Property(name = "datasources.default.password") String password;
+    private final TenantFlywayMigrator pgTenantFlywayMigrator;
+
+    public TenantGrpcEndpoint(
+            @Property(name = "datasources.default.url") String url,
+            @Property(name = "datasources.default.username") String username,
+            @Property(name = "datasources.default.password") String password
+    ) {
+        this.pgTenantFlywayMigrator = new TenantFlywayMigrator(url, username, password);
+    }
 
     @Override
-    public void provision(ProvisionTenantRequest request,
-                          StreamObserver<ProvisionTenantResponse> responseObserver) {
-        String datasourceUrl = url;
-
-        if (datasourceUrl.startsWith("jdbc:otel:")) {
-            datasourceUrl = datasourceUrl.replace("jdbc:otel:", "");
-        }
-
-        if (datasourceUrl.startsWith("jdbc:")) {
-            datasourceUrl = datasourceUrl.replace("jdbc:", "");
-        }
-
-        var uri = URI.create(datasourceUrl);
-
-        String query = (StringUtils.isEmpty(uri.getQuery()) ? "" : "&") + "currentSchema=" + request.getName().getValue();
-
+    public void provision(ProvisionTenantRequest request, StreamObserver<ProvisionTenantResponse> responseObserver) {
         try {
-            var modifiedUri = new URI(
-                    uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(), uri.getPath(), query,
-                    uri.getFragment()
-            );
-
-            DataSource dataSource = new DriverDataSource(
-                    Thread.currentThread().getContextClassLoader(),
-                    null,
-                    "jdbc:" + modifiedUri,
-                    username,
-                    password
-            );
-
-            var fluentConfiguration = new FluentConfiguration()
-                    .dataSource(dataSource);
-
-            var flyway = fluentConfiguration.load();
-            flyway.migrate();
+            pgTenantFlywayMigrator.migrateSchema(request.getName().getValue());
 
             responseObserver.onNext(
                     ProvisionTenantResponse.newBuilder()
@@ -74,43 +44,22 @@ public class TenantGrpcEndpoint extends TenantServiceGrpc.TenantServiceImplBase 
                             .build()
             );
             responseObserver.onCompleted();
-        } catch (URISyntaxException e) {
+        } catch (FlywayException e) {
             responseObserver.onError(e);
         }
     }
 
     @Override
-    public void drop(DropTenantRequest request,
-                     StreamObserver<DropTenantResponse> responseObserver) {
-        String datasourceUrl = url;
-
-        if (datasourceUrl.startsWith("jdbc:otel:")) {
-            datasourceUrl = datasourceUrl.replace("jdbc:otel:", "jdbc:");
-        }
-
-        DataSource dataSource = new DriverDataSource(
-                Thread.currentThread().getContextClassLoader(),
-                null,
-                datasourceUrl,
-                username,
-                password
-        );
-
+    public void drop(DropTenantRequest request, StreamObserver<DropTenantResponse> responseObserver) {
         try {
-            try (var connection = dataSource.getConnection()) {
-                String sql = "DROP SCHEMA " + request.getName().getValue() + " CASCADE;";
+            pgTenantFlywayMigrator.dropSchema(request.getName().getValue());
 
-                try (var statement = connection.createStatement()) {
-                    statement.execute(sql);
-
-                    responseObserver.onNext(
-                            DropTenantResponse.newBuilder()
-                                    .setStatus(TenantStatus.TENANT_STATUS_DROPPED)
-                                    .build()
-                    );
-                    responseObserver.onCompleted();
-                }
-            }
+            responseObserver.onNext(
+                    DropTenantResponse.newBuilder()
+                            .setStatus(TenantStatus.TENANT_STATUS_DROPPED)
+                            .build()
+            );
+            responseObserver.onCompleted();
         } catch (SQLException e) {
             responseObserver.onError(e);
         }
