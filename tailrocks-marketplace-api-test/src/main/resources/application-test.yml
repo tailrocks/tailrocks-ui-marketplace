@@ -8,3 +8,5 @@ tailrocks:
   client:
     marketplace:
       default-tenant: testing
+      # io.micronaut.grpc.server.GrpcServerChannel.NAME
+      grpc-channel: grpc-server

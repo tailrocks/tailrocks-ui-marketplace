@@ -27,7 +27,7 @@ import java.util.*
 
 @MicronautTest(transactional = false)
 @ExtendWith(OpenTelemetryExtension::class)
-class CatalogSectionServiceTests(
+class CatalogSectionIntegrationTests(
     private val tailrocksMarketplaceClient: TailrocksMarketplaceClient,
     private val catalogSectionRepository: CatalogSectionRepository
 ) {

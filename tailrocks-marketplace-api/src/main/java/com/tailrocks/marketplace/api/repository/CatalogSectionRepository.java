@@ -7,6 +7,8 @@ import com.tailrocks.marketplace.api.mapper.CatalogSectionMapper;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionInput;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.jooq.tables.records.CatalogSectionRecord;
+import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
 import org.jooq.Condition;
@@ -24,17 +26,18 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
 import static org.jooq.impl.DSL.noCondition;
 
 @Singleton
-public class CatalogSectionRepository extends AbstractRepository {
+public class CatalogSectionRepository extends AbstractTenantRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(CatalogSectionRepository.class);
 
     private final CatalogSectionMapper catalogSectionMapper;
 
     public CatalogSectionRepository(
+            @Property(name = "micronaut.application.name") String applicationName,
             DSLContext dslContext,
             CatalogSectionMapper catalogSectionMapper
     ) {
-        super(dslContext);
+        super(applicationName, dslContext);
         this.catalogSectionMapper = catalogSectionMapper;
     }
 

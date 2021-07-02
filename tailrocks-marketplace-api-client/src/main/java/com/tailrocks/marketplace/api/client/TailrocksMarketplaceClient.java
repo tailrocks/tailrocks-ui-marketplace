@@ -14,34 +14,36 @@ import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput;
 import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
-import com.zhokhov.jambalaya.tenancy.TenancyUtils;
-import com.zhokhov.jambalaya.tenancy.Tenant;
-import io.micronaut.context.annotation.Value;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
-import io.micronaut.core.util.StringUtils;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tailrocks.marketplace.api.client.config.Constants.DEFAULT_TENANT;
+import static com.tailrocks.marketplace.api.client.config.Constants.TENANT_SERVICE_NAME;
 import static com.zhokhov.jambalaya.tenancy.TenancyUtils.callWithTenant;
+import static com.zhokhov.jambalaya.tenancy.TenancyUtils.getTenantStringOrElse;
 
 @Singleton
 public class TailrocksMarketplaceClient {
 
-    private final CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
     private final TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub;
+    private final CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
 
-    @Value("${tailrocks.client.marketplace.default-tenant:}")
-    String defaultTenant;
+    @Property(name = DEFAULT_TENANT) String defaultTenant;
 
+    @Inject
     public TailrocksMarketplaceClient(
-            CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub,
-            TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub
+            @Named(TENANT_SERVICE_NAME) TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub,
+            CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub
     ) {
-        this.catalogSectionServiceBlockingStub = catalogSectionServiceBlockingStub;
         this.tenantServiceBlockingStub = tenantServiceBlockingStub;
+        this.catalogSectionServiceBlockingStub = catalogSectionServiceBlockingStub;
     }
 
     public void provisionTenant(@NonNull String name) {
@@ -111,7 +113,7 @@ public class TailrocksMarketplaceClient {
     }
 
     private String getTenantString() {
-        return TenancyUtils.getTenantStringOrElse(StringUtils.hasText(defaultTenant) ? defaultTenant : Tenant.DEFAULT);
+        return getTenantStringOrElse(defaultTenant);
     }
 
 }

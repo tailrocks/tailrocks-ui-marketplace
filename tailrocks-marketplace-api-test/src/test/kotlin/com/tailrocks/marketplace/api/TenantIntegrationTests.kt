@@ -22,7 +22,7 @@ import java.lang.System.currentTimeMillis
  */
 @MicronautTest(transactional = false)
 @ExtendWith(OpenTelemetryExtension::class)
-class TenantTests constructor(
+class TenantIntegrationTests constructor(
     private val tailrocksMarketplaceClient: TailrocksMarketplaceClient
 ) {
 
