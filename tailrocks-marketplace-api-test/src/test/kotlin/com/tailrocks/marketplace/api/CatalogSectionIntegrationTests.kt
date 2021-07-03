@@ -8,7 +8,7 @@ import com.google.protobuf.UInt32Value
 import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
 import com.tailrocks.marketplace.api.repository.CatalogSectionRepository
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryExtension
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
@@ -22,11 +22,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import java.lang.System.currentTimeMillis
 
 @MicronautTest(transactional = false)
-@ExtendWith(OpenTelemetryExtension::class)
+@OpenTelemetry
 class CatalogSectionIntegrationTests(
     private val tailrocksMarketplaceClient: TailrocksMarketplaceClient,
     private val catalogSectionRepository: CatalogSectionRepository

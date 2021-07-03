@@ -4,7 +4,7 @@
 package com.tailrocks.marketplace.api
 
 import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryExtension
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN
@@ -14,14 +14,13 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import java.lang.System.currentTimeMillis
 
 /**
  * @author Alexey Zhokhov
  */
 @MicronautTest(transactional = false)
-@ExtendWith(OpenTelemetryExtension::class)
+@OpenTelemetry
 class TenantIntegrationTests constructor(
     private val tailrocksMarketplaceClient: TailrocksMarketplaceClient
 ) {
