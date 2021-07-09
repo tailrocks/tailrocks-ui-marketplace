@@ -77,12 +77,12 @@ public class CatalogSectionRepository extends AbstractTenantRepository {
                 catalogSectionInput,
                 getDslContext().newRecord(CATALOG_SECTION)
         );
-        item.setId(ObjectId.get().toHexString());
 
         if (!catalogSectionInput.hasSortOrder()) {
             item.setSortOrder(getMaxSortOrder());
         }
 
+        item.setId(ObjectId.get().toHexString());
         item.store();
 
         LOG.info("Created {}", item.getId());
