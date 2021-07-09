@@ -11,6 +11,7 @@ import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
+import org.bson.types.ObjectId;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -76,6 +77,7 @@ public class CatalogSectionRepository extends AbstractTenantRepository {
                 catalogSectionInput,
                 getDslContext().newRecord(CATALOG_SECTION)
         );
+        item.setId(ObjectId.get().toHexString());
 
         if (!catalogSectionInput.hasSortOrder()) {
             item.setSortOrder(getMaxSortOrder());

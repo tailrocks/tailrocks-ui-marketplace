@@ -15,7 +15,7 @@ import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
 import com.zhokhov.jambalaya.tenancy.TenancyUtils.runWithTestingTenant
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
-import io.kotest.matchers.longs.shouldBeGreaterThan
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.BeforeEach
@@ -63,7 +63,7 @@ class CatalogSectionIntegrationTests(
 
             THEN {
                 item.also {
-                    it.id shouldBeGreaterThan 0
+                    it.id.shouldNotBeNull()
                     it.slug shouldBe givenSlug
                     it.name shouldBe givenName
                     it.icon.apply {
@@ -93,7 +93,7 @@ class CatalogSectionIntegrationTests(
             THEN("a one card will be returned") {
                 response.isPresent.shouldBeTrue()
                 response.get().also {
-                    it.id shouldBeGreaterThan 0
+                    it.id.shouldNotBeNull()
                     it.slug shouldBe givenSlug
                     it.name shouldBe givenName
                     it.icon.apply {
@@ -127,7 +127,7 @@ class CatalogSectionIntegrationTests(
 
             THEN {
                 item.also {
-                    it.id shouldBeGreaterThan 0
+                    it.id.shouldNotBeNull()
                     it.slug shouldBe givenSlug
                     it.name shouldBe givenName
                     it.icon.apply {
