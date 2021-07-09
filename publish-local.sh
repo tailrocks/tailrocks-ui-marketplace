@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-./gradlew publishToMavenLocal --info
+./gradlew clean publishToMavenLocal --info

@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-../gradlew dockerBuild
+./gradlew clean dockerBuild
