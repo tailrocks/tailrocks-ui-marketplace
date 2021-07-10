@@ -7,6 +7,7 @@ import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
+import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.ints.shouldBeZero
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -125,6 +126,29 @@ class ComponentCollectionIntegrationTests(
             }
         }
 
+    }
+
+    @Test
+    fun `create with only required values`() {
+        WHEN_ {
+            val givenKeycloakUserId = UUID.randomUUID().toString()
+            val givenName = "HeRo Super-Collection!!!"
+
+            val item = tailrocksMarketplaceClient.createComponentCollection(
+                givenKeycloakUserId, givenName, null, null
+            )
+
+            THEN {
+                item.also {
+                    it.id.shouldNotBeNull()
+                    it.slug shouldBe "hero-super-collection"
+                    it.name shouldBe givenName
+                    it.hasDescription().shouldBeFalse()
+                    it.componentsCount.shouldBeZero()
+                    it.keycloakUserId shouldBe givenKeycloakUserId
+                }
+            }
+        }
     }
 
 }

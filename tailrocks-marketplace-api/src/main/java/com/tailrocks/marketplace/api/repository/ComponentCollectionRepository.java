@@ -21,6 +21,7 @@ import java.util.List;
 
 import static com.tailrocks.marketplace.jooq.Tables.COMPONENT_COLLECTION;
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
+import static com.zhokhov.jambalaya.seo.SlugUtils.generateSlug;
 import static org.jooq.impl.DSL.noCondition;
 
 /**
@@ -63,6 +64,10 @@ public class ComponentCollectionRepository extends AbstractTenantRepository {
                 componentCollectionInput,
                 getDslContext().newRecord(COMPONENT_COLLECTION)
         );
+
+        if (!componentCollectionInput.hasSlug()) {
+            item.setSlug(generateSlug(item.getName()));
+        }
 
         item.setId(ObjectId.get().toHexString());
         item.store();

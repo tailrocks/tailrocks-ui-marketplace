@@ -48,6 +48,7 @@ dependencies {
     api("io.github.expatiat.jambalaya:jambalaya-protobuf:${Versions.jambalayaProtobuf}")
     api("io.github.expatiat.jambalaya:jambalaya-micronaut-mapstruct-protobuf:${Versions.jambalayaMicronautMapstructProtobuf}")
     api("io.github.expatiat.jambalaya:jambalaya-opentelemetry:${Versions.jambalayaOpentelemetry}")
+    api("io.github.expatiat.jambalaya:jambalaya-seo:${Versions.jambalayaSeo}")
     api("io.github.expatiat.jambalaya:jambalaya-tenancy:${Versions.jambalayaTenancy}")
     api("io.github.expatiat.jambalaya:jambalaya-tenancy-flyway:${Versions.jambalayaTenancyFlyway}")
     api("io.github.expatiat.jambalaya:jambalaya-tenancy-grpc-interface:${Versions.jambalayaTenancyGrpcInterface}")
