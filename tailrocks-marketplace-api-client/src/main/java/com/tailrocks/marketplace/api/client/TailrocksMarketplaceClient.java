@@ -11,6 +11,11 @@ import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGr
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CreateCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput;
+import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollection;
+import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionInput;
+import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.component.collection.CreateComponentCollectionRequest;
+import com.tailrocks.marketplace.grpc.v1.component.collection.FindComponentCollectionRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
@@ -34,16 +39,19 @@ public class TailrocksMarketplaceClient {
 
     private final TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub;
     private final CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
+    private final ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub;
 
     @Property(name = DEFAULT_TENANT) String defaultTenant;
 
     @Inject
     public TailrocksMarketplaceClient(
             @Named(TENANT_SERVICE_NAME) TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub,
-            CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub
+            CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub,
+            ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub
     ) {
         this.tenantServiceBlockingStub = tenantServiceBlockingStub;
         this.catalogSectionServiceBlockingStub = catalogSectionServiceBlockingStub;
+        this.componentCollectionServiceBlockingStub = componentCollectionServiceBlockingStub;
     }
 
     public void provisionTenant(@NonNull String name) {
@@ -58,31 +66,8 @@ public class TailrocksMarketplaceClient {
                 .build());
     }
 
-    public Optional<CatalogSection> findCatalogSectionBySlug(@NonNull String slug) {
-        return callWithTenant(getTenantString(), () -> catalogSectionServiceBlockingStub
-                .find(
-                        FindCatalogSectionRequest.newBuilder()
-                                .addCriteria(FindCatalogSectionRequest.Criteria.newBuilder()
-                                        .addSlug(slug)
-                                        .build())
-                                .build()
-                )
-                .getItemList().stream().findFirst()
-        );
-    }
-
-    public List<CatalogSection> findAllCatalogSection() {
-        return callWithTenant(getTenantString(), () -> catalogSectionServiceBlockingStub
-                .find(
-                        FindCatalogSectionRequest.newBuilder()
-                                .setSort(FindCatalogSectionRequest.Sort.SORT_ORDER_ASC)
-                                .build()
-                )
-                .getItemList()
-        );
-    }
-
     public CatalogSection createCatalogSection(
+            // TODO make slug auto-generated
             @NonNull String slug, @NonNull String name, @Nullable String description, @Nullable Integer sortOrder,
             @Nullable IconInput icon
     ) {
@@ -110,6 +95,91 @@ public class TailrocksMarketplaceClient {
                 )
                 .getItem(0)
         );
+    }
+
+    public Optional<CatalogSection> findCatalogSectionBySlug(@NonNull String slug) {
+        return callWithTenant(getTenantString(), () -> catalogSectionServiceBlockingStub
+                .find(
+                        FindCatalogSectionRequest.newBuilder()
+                                .addCriteria(FindCatalogSectionRequest.Criteria.newBuilder()
+                                        .addSlug(slug)
+                                        .build())
+                                .build()
+                )
+                .getItemList().stream().findFirst()
+        );
+    }
+
+    public List<CatalogSection> findAllCatalogSection() {
+        return callWithTenant(getTenantString(), () -> catalogSectionServiceBlockingStub
+                .find(
+                        FindCatalogSectionRequest.newBuilder()
+                                .setSort(FindCatalogSectionRequest.Sort.SORT_ORDER_ASC)
+                                .build()
+                )
+                .getItemList()
+        );
+    }
+
+    public ComponentCollection createComponentCollection(
+            @NonNull String keycloakUserId, @NonNull String name, @Nullable String slug, @Nullable String description
+    ) {
+        var inputBuilder = ComponentCollectionInput.newBuilder()
+                .setKeycloakUserId(StringValue.of(keycloakUserId))
+                .setName(StringValue.of(name));
+
+        if (slug != null) {
+            inputBuilder.setSlug(StringValue.of(slug));
+        }
+
+        if (description != null) {
+            inputBuilder.setDescription(StringValue.of(description));
+        }
+
+        return callWithTenant(getTenantString(), () -> componentCollectionServiceBlockingStub
+                .create(CreateComponentCollectionRequest.newBuilder()
+                        .addItem(inputBuilder.build())
+                        .build())
+                .getItem(0)
+        );
+    }
+
+    public List<ComponentCollection> findAllComponentCollectionsByKeycloakUserId(@NonNull String keycloakUserId) {
+        return callWithTenant(getTenantString(), () -> componentCollectionServiceBlockingStub
+                .find(
+                        FindComponentCollectionRequest.newBuilder()
+                                .addCriteria(FindComponentCollectionRequest.Criteria.newBuilder()
+                                        .addKeycloakUserId(keycloakUserId)
+                                        .build())
+                                .build()
+                )
+                .getItemList()
+        );
+    }
+
+    public List<ComponentCollection> findComponentCollectionsByKeycloakUserIdAndSlug(
+            @NonNull Iterable<KeycloakUserIdAndSlug> items
+    ) {
+        var builder = FindComponentCollectionRequest.newBuilder();
+
+        items.forEach(it -> builder.addCriteria(FindComponentCollectionRequest.Criteria.newBuilder()
+                .addKeycloakUserId(it.keycloakUserId())
+                .addSlug(it.slug())
+                .build()));
+
+        return callWithTenant(getTenantString(), () -> componentCollectionServiceBlockingStub
+                .find(builder.build())
+                .getItemList()
+        );
+    }
+
+    public Optional<ComponentCollection> findComponentCollectionByKeycloakUserIdAndSlug(@NonNull String keycloakUserId,
+                                                                                        @NonNull String slug) {
+        return findComponentCollectionsByKeycloakUserIdAndSlug(
+                List.of(new KeycloakUserIdAndSlug(keycloakUserId, slug))
+        )
+                .stream()
+                .findFirst();
     }
 
     private String getTenantString() {

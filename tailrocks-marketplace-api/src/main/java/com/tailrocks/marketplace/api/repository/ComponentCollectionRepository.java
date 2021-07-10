@@ -96,6 +96,14 @@ public class ComponentCollectionRepository extends AbstractTenantRepository {
     private Condition generateCondition(FindComponentCollectionRequest.Criteria criteria) {
         var result = noCondition();
 
+        if (criteria.getIdCount() > 0) {
+            result = result.and(COMPONENT_COLLECTION.ID.in(criteria.getIdList()));
+        }
+
+        if (criteria.getKeycloakUserIdCount() > 0) {
+            result = result.and(COMPONENT_COLLECTION.KEYCLOAK_USER_ID.in(criteria.getKeycloakUserIdList()));
+        }
+
         if (criteria.getSlugCount() > 0) {
             result = result.and(COMPONENT_COLLECTION.SLUG.in(criteria.getSlugList()));
         }

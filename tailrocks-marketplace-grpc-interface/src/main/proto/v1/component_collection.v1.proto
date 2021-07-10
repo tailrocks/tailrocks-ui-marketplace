@@ -24,19 +24,12 @@ message FindComponentCollectionRequest {
   repeated Criteria criteria = 1;
 
   message Criteria {
-    // The slug.
+    // The id.
     repeated string id = 1;
+    // The keycloak user id.
+    repeated string keycloak_user_id = 2;
     // The slug.
-    repeated string slug = 2;
-    // The slug.
-    repeated string slug = 2;
-  }
-
-  Sort sort = 3;
-
-  enum Sort {
-    SORT_UNDEFINED = 0;
-    SORT_ORDER_ASC = 1;
+    repeated string slug = 3;
   }
 }
 

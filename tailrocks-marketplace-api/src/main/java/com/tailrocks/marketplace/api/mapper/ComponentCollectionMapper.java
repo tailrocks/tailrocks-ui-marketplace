@@ -3,6 +3,7 @@ package com.tailrocks.marketplace.api.mapper;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollection;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionInput;
 import com.tailrocks.marketplace.jooq.tables.records.ComponentCollectionRecord;
+import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.CommonConvertersMapper;
 import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
@@ -17,13 +18,15 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
  * @author Alexey Zhokhov
  */
 @Mapper(
+        // TODO use MappingConstants.ComponentModel.JSR330
         componentModel = "jsr330",
         injectionStrategy = CONSTRUCTOR,
         collectionMappingStrategy = CollectionMappingStrategy.SETTER_PREFERRED,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         uses = {
-                ProtobufConvertersMapper.class
+                ProtobufConvertersMapper.class,
+                CommonConvertersMapper.class
         }
 )
 public interface ComponentCollectionMapper {
@@ -35,6 +38,7 @@ public interface ComponentCollectionMapper {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "lastModifiedDate", ignore = true)
     @Mapping(target = "version", ignore = true)
+    @Mapping(target = "componentsCount", ignore = true)
     ComponentCollectionRecord toComponentCollectionRecord(
             ComponentCollectionInput componentCollectionInput,
             @MappingTarget ComponentCollectionRecord componentCollectionRecord
