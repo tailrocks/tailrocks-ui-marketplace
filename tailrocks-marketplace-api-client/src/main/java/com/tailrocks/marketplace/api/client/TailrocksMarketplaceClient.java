@@ -174,6 +174,19 @@ public class TailrocksMarketplaceClient {
         );
     }
 
+    public Optional<ComponentCollection> findComponentCollectionById(@NonNull String id) {
+        return callWithTenant(getTenantString(), () -> componentCollectionServiceBlockingStub
+                .find(
+                        FindComponentCollectionRequest.newBuilder()
+                                .addCriteria(FindComponentCollectionRequest.Criteria.newBuilder()
+                                        .addId(id)
+                                        .build())
+                                .build()
+                )
+                .getItemList().stream().findFirst()
+        );
+    }
+
     public Optional<ComponentCollection> findComponentCollectionByKeycloakUserIdAndSlug(@NonNull String keycloakUserId,
                                                                                         @NonNull String slug) {
         return findComponentCollectionsByKeycloakUserIdAndSlug(
