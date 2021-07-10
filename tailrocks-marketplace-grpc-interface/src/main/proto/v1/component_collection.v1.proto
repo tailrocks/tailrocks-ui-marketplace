@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package com.tailrocks.marketplace.grpc.v1.component.collection;
+
+import "google/protobuf/wrappers.proto";
+import "validate/validate.proto";
+
+option java_multiple_files = true;
+
+service ComponentCollectionService {
+  // Find component collection list by criteria.
+  rpc find (FindComponentCollectionRequest) returns (ComponentCollectionListResponse);
+
+  // Create list of component collections by inputs.
+  rpc create (CreateComponentCollectionRequest) returns (ComponentCollectionListResponse);
+}
+
+/*
+ * REQUESTS
+ */
+
+message FindComponentCollectionRequest {
+  // List of criteria items.
+  repeated Criteria criteria = 1;
+
+  message Criteria {
+    // The slug.
+    repeated string id = 1;
+    // The slug.
+    repeated string slug = 2;
+    // The slug.
+    repeated string slug = 2;
+  }
+
+  Sort sort = 3;
+
+  enum Sort {
+    SORT_UNDEFINED = 0;
+    SORT_ORDER_ASC = 1;
+  }
+}
+
+message CreateComponentCollectionRequest {
+  // Input items.
+  repeated ComponentCollectionInput item = 1 [
+    (validate.rules).repeated.min_items = 1
+  ];
+}
+
+/*
+ * INPUTS
+ */
+
+message ComponentCollectionInput {
+  // The name.
+  google.protobuf.StringValue name = 1 [
+    (validate.rules).message.required = true
+  ];
+
+  // The slug. Optional, will be generated automatically based on the name.
+  google.protobuf.StringValue slug = 2;
+
+  // The description.
+  google.protobuf.StringValue description = 3;
+
+  // The keycloak user id of the owner of this collection.
+  google.protobuf.StringValue keycloak_user_id = 4 [
+    (validate.rules).message.required = true
+  ];
+}
+
+/*
+ * RESPONSES
+ */
+
+message ComponentCollectionListResponse {
+  // component collection list.
+  repeated ComponentCollection item = 1;
+}
+
+/*
+ * ENTITIES
+ */
+
+message ComponentCollection {
+  // Unique identifier for the object.
+  string id = 1;
+  // The slug.
+  string slug = 2;
+  // The name.
+  string name = 3;
+  // The description.
+  google.protobuf.StringValue description = 4;
+  // The number of components in this collection.
+  uint32 components_count = 5;
+  // The keycloak user id of the owner of this collection.
+  string keycloak_user_id = 6;
+}
