@@ -16,6 +16,7 @@ import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectio
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc;
 import com.tailrocks.marketplace.grpc.v1.component.collection.CreateComponentCollectionRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.FindComponentCollectionRequest;
+import com.tailrocks.marketplace.grpc.v1.component.collection.UpdateComponentCollectionRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
@@ -180,6 +181,29 @@ public class TailrocksMarketplaceClient {
         )
                 .stream()
                 .findFirst();
+    }
+
+    public ComponentCollection updateComponentCollection(
+            @NonNull String id, @Nullable String name, @Nullable String slug, @Nullable String description
+    ) {
+        var request = UpdateComponentCollectionRequest.newBuilder()
+                .setId(StringValue.of(id));
+
+        if (name != null) {
+            request.setName(StringValue.of(name));
+        }
+
+        if (slug != null) {
+            request.setSlug(StringValue.of(slug));
+        }
+
+        if (description != null) {
+            request.setDescription(StringValue.of(description));
+        }
+
+        return callWithTenant(getTenantString(), () -> componentCollectionServiceBlockingStub
+                .update(request.build())
+                .getItem());
     }
 
     private String getTenantString() {

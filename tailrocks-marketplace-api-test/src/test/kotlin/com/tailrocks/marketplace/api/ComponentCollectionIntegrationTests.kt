@@ -5,6 +5,7 @@ package com.tailrocks.marketplace.api
 
 import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN_
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
 import io.kotest.matchers.booleans.shouldBeFalse
@@ -148,6 +149,34 @@ class ComponentCollectionIntegrationTests(
                     it.keycloakUserId shouldBe givenKeycloakUserId
                 }
             }
+        }
+    }
+
+    @Test
+    fun `update component collection`() {
+        val givenName = "Updated name"
+        val givenSlug = "updated-slug"
+        val givenDescription = "Updated description."
+
+        val item = GIVEN_ {
+            tailrocksMarketplaceClient.createComponentCollection(
+                UUID.randomUUID().toString(), "Test", null, null
+            )
+        }
+
+        val updatedComponentCollection = WHEN_ {
+            tailrocksMarketplaceClient.updateComponentCollection(
+                item.id, givenName, givenSlug, givenDescription
+            )
+        }
+
+        THEN {
+            updatedComponentCollection.id shouldBe item.id
+            updatedComponentCollection.slug shouldBe givenSlug
+            updatedComponentCollection.name shouldBe givenName
+            updatedComponentCollection.description.value shouldBe givenDescription
+            updatedComponentCollection.componentsCount.shouldBeZero()
+            updatedComponentCollection.keycloakUserId shouldBe item.keycloakUserId
         }
     }
 

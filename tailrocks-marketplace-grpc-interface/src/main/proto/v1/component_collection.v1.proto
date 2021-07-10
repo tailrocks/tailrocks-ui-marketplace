@@ -13,6 +13,9 @@ service ComponentCollectionService {
 
   // Create list of component collections by inputs.
   rpc create (CreateComponentCollectionRequest) returns (ComponentCollectionListResponse);
+
+  // Updates component collection.
+  rpc update (UpdateComponentCollectionRequest) returns (ComponentCollectionResponse);
 }
 
 /*
@@ -40,6 +43,22 @@ message CreateComponentCollectionRequest {
   ];
 }
 
+message UpdateComponentCollectionRequest {
+  // The id.
+  google.protobuf.StringValue id = 1 [
+    (validate.rules).message.required = true
+  ];
+
+  // The slug.
+  google.protobuf.StringValue slug = 2;
+
+  // The slug.
+  google.protobuf.StringValue name = 3;
+
+  // The description.
+  google.protobuf.StringValue description = 4;
+}
+
 /*
  * INPUTS
  */
@@ -65,6 +84,11 @@ message ComponentCollectionInput {
 /*
  * RESPONSES
  */
+
+message ComponentCollectionResponse {
+  // Account item.
+  ComponentCollection item = 1;
+}
 
 message ComponentCollectionListResponse {
   // component collection list.

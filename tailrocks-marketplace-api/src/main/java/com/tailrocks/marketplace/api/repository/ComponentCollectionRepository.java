@@ -3,6 +3,7 @@ package com.tailrocks.marketplace.api.repository;
 import com.tailrocks.marketplace.api.mapper.ComponentCollectionMapper;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionInput;
 import com.tailrocks.marketplace.grpc.v1.component.collection.FindComponentCollectionRequest;
+import com.tailrocks.marketplace.grpc.v1.component.collection.UpdateComponentCollectionRequest;
 import com.tailrocks.marketplace.jooq.tables.records.ComponentCollectionRecord;
 import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import io.micronaut.context.annotation.Property;
@@ -18,8 +19,10 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 import static com.tailrocks.marketplace.jooq.Tables.COMPONENT_COLLECTION;
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
 import static com.zhokhov.jambalaya.seo.SlugUtils.generateSlug;
 import static org.jooq.impl.DSL.noCondition;
@@ -43,6 +46,15 @@ public class ComponentCollectionRepository extends AbstractTenantRepository {
         this.componentCollectionMapper = componentCollectionMapper;
     }
 
+    @ReadOnly
+    public Optional<ComponentCollectionRecord> findById(@NonNull String id) {
+        checkNotBlank(id, "id");
+
+        return getDslContext()
+                .selectFrom(COMPONENT_COLLECTION)
+                .where(COMPONENT_COLLECTION.ID.eq(id))
+                .fetchOptional();
+    }
 
     @ReadOnly
     public List<ComponentCollectionRecord> find(@NonNull FindComponentCollectionRequest request) {
@@ -73,6 +85,28 @@ public class ComponentCollectionRepository extends AbstractTenantRepository {
         item.store();
 
         LOG.info("Created {}", item.getId());
+
+        return item;
+    }
+
+    @Transactional
+    public ComponentCollectionRecord update(@NonNull ComponentCollectionRecord accountRecord,
+                                            @NonNull UpdateComponentCollectionRequest updateRequest) {
+        checkNotNull(updateRequest, "updateRequest");
+
+        var item = componentCollectionMapper.toComponentCollectionRecord(
+                updateRequest, accountRecord
+        );
+
+        if (updateRequest.hasSlug()) {
+            item.setSlug(generateSlug(updateRequest.getSlug().getValue()));
+        }
+
+        getDslContext().attach(item);
+
+        item.store();
+
+        LOG.info("Updated {}", item.getId());
 
         return item;
     }
