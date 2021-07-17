@@ -31,6 +31,9 @@ dependencies {
     // PGV
     api("io.envoyproxy.protoc-gen-validate:pgv-java-stub:${Versions.pgv}")
 
+    // Google
+    api("com.google.api.grpc:proto-google-common-protos:2.3.2")
+
     compileOnly("jakarta.annotation:jakarta.annotation-api")
 }
 

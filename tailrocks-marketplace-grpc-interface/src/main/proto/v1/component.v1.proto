@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package com.tailrocks.marketplace.grpc.v1.component;
+
+import "google/protobuf/wrappers.proto";
+import "google/type/money.proto";
+import "validate/validate.proto";
+
+option java_multiple_files = true;
+
+service ComponentService {
+  // Find component list by criteria.
+  rpc find (FindComponentRequest) returns (ComponentListResponse);
+
+  // Create multiple components by input.
+  rpc create (CreateComponentRequest) returns (ComponentListResponse);
+}
+
+/*
+ * REQUESTS
+ */
+
+message FindComponentRequest {
+  // List of criteria items.
+  repeated Criteria criteria = 1;
+
+  message Criteria {
+    // The id.
+    repeated string id = 1;
+    // The component collection id.
+    repeated string component_collection_id = 2;
+    // The catalog section id.
+    repeated string catalog_section_id = 3;
+  }
+}
+
+message CreateComponentRequest {
+  // Input items.
+  repeated ComponentInput item = 1 [
+    (validate.rules).repeated.min_items = 1
+  ];
+}
+
+/*
+ * INPUTS
+ */
+
+message ComponentInput {
+  // The component collection.
+  google.protobuf.StringValue component_collection_id = 1 [
+    (validate.rules).message.required = true
+  ];
+
+  // The catalog section.
+  google.protobuf.StringValue catalog_section_id = 2 [
+    (validate.rules).message.required = true
+  ];
+
+  // The title.
+  google.protobuf.StringValue title = 3;
+
+  // The description.
+  google.protobuf.StringValue description = 4;
+
+  // The price.
+  google.type.Money price = 5 [
+    (validate.rules).message.required = true
+  ];
+
+  // The HTML source code.
+  google.protobuf.StringValue source_code_html = 6 [
+    (validate.rules).message.required = true
+  ];
+}
+
+/*
+ * RESPONSES
+ */
+
+message ComponentResponse {
+  // Component item.
+  Component item = 1;
+}
+
+message ComponentListResponse {
+  // Component list.
+  repeated Component item = 1;
+}
+
+/*
+ * ENTITIES
+ */
+
+message Component {
+  // Unique identifier for the object.
+  string id = 1;
+  // The collection to which this component belongs.
+  string component_collection_id = 2;
+  // The catalog section.
+  string catalog_section_id = 3;
+  // The title.
+  google.protobuf.StringValue title = 4;
+  // The description.
+  google.protobuf.StringValue description = 5;
+  // The price of this component;
+  google.type.Money price = 6;
+  // The HTML source code of this component. Optional only if not loaded. All components required to have source code.
+  google.protobuf.StringValue source_code_html = 7;
+}
