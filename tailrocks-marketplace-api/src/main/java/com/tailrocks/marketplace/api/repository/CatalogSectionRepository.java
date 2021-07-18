@@ -24,6 +24,7 @@ import java.util.List;
 
 import static com.tailrocks.marketplace.jooq.tables.CatalogSection.CATALOG_SECTION;
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
+import static com.zhokhov.jambalaya.seo.SlugUtils.generateSlug;
 import static org.jooq.impl.DSL.noCondition;
 
 @Singleton
@@ -78,6 +79,10 @@ public class CatalogSectionRepository extends AbstractTenantRepository {
                 getDslContext().newRecord(CATALOG_SECTION)
         );
 
+        if (!catalogSectionInput.hasSlug()) {
+            item.setSlug(generateSlug(item.getName()));
+        }
+
         if (!catalogSectionInput.hasSortOrder()) {
             item.setSortOrder(getMaxSortOrder());
         }
@@ -104,7 +109,7 @@ public class CatalogSectionRepository extends AbstractTenantRepository {
     private Condition generateFindCondition(List<FindCatalogSectionRequest.Criteria> criteriaList) {
         var result = DSL.noCondition();
 
-        for (FindCatalogSectionRequest.Criteria criteria : criteriaList) {
+        for (var criteria : criteriaList) {
             result = result.or(generateCondition(criteria));
         }
 

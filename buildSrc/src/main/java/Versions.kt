@@ -52,7 +52,7 @@ object Versions {
     const val jambalayaMapstructProcessor = "0.3.1"
     const val jambalayaMicronautMapstructProtobuf = "0.3.1"
     const val jambalayaOpentelemetry = "0.2.0"
-    const val jambalayaProtobuf = "0.4.0"
+    const val jambalayaProtobuf = "0.4.1"
     const val jambalayaSeo = "0.4.0"
     const val jambalayaTenancy = "0.4.1"
     const val jambalayaTenancyFlyway = "0.1.1"

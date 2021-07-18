@@ -1,7 +1,8 @@
 package com.tailrocks.marketplace.api.mapper;
 
+import com.google.type.Money;
 import com.tailrocks.marketplace.grpc.v1.component.Component;
-import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionInput;
+import com.tailrocks.marketplace.grpc.v1.component.ComponentInput;
 import com.tailrocks.marketplace.jooq.tables.records.ComponentRecord;
 import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
@@ -11,6 +12,10 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.math.BigDecimal;
+
+import static com.zhokhov.jambalaya.protobuf.ProtobufConverters.toBigDecimal;
+import static com.zhokhov.jambalaya.protobuf.ProtobufConverters.toMoney;
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 /**
@@ -36,9 +41,21 @@ public interface ComponentMapper {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "lastModifiedDate", ignore = true)
     @Mapping(target = "version", ignore = true)
+    @Mapping(target = "icon", ignore = true)
+    @Mapping(target = "rendering", ignore = true)
+    // mapping
+    @Mapping(target = "priceCurrency", constant = "USD")
     ComponentRecord toComponentRecord(
-            ComponentCollectionInput componentCollectionInput,
+            ComponentInput componentInput,
             @MappingTarget ComponentRecord componentRecord
     );
+
+    default BigDecimal map(Money value) {
+        return toBigDecimal(value);
+    }
+
+    default Money map(BigDecimal value) {
+        return toMoney(value, "USD");
+    }
 
 }

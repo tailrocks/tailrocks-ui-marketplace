@@ -23,20 +23,20 @@ import java.sql.SQLException;
 @Singleton
 public class TenantGrpcEndpoint extends TenantServiceGrpc.TenantServiceImplBase {
 
-    private final TenantFlywayMigrator pgTenantFlywayMigrator;
+    private final TenantFlywayMigrator tenantFlywayMigrator;
 
     public TenantGrpcEndpoint(
             @Property(name = "datasources.default.url") String url,
             @Property(name = "datasources.default.username") String username,
             @Property(name = "datasources.default.password") String password
     ) {
-        this.pgTenantFlywayMigrator = new TenantFlywayMigrator(url, username, password);
+        this.tenantFlywayMigrator = new TenantFlywayMigrator(url, username, password);
     }
 
     @Override
     public void provision(ProvisionTenantRequest request, StreamObserver<ProvisionTenantResponse> responseObserver) {
         try {
-            pgTenantFlywayMigrator.migrateSchema(request.getName().getValue());
+            tenantFlywayMigrator.migrateSchema(request.getName().getValue());
 
             responseObserver.onNext(
                     ProvisionTenantResponse.newBuilder()
@@ -52,7 +52,7 @@ public class TenantGrpcEndpoint extends TenantServiceGrpc.TenantServiceImplBase 
     @Override
     public void drop(DropTenantRequest request, StreamObserver<DropTenantResponse> responseObserver) {
         try {
-            pgTenantFlywayMigrator.dropSchema(request.getName().getValue());
+            tenantFlywayMigrator.dropSchema(request.getName().getValue());
 
             responseObserver.onNext(
                     DropTenantResponse.newBuilder()

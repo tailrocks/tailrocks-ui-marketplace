@@ -11,6 +11,11 @@ import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGr
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CreateCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput;
+import com.tailrocks.marketplace.grpc.v1.component.Component;
+import com.tailrocks.marketplace.grpc.v1.component.ComponentInput;
+import com.tailrocks.marketplace.grpc.v1.component.ComponentServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.component.CreateComponentRequest;
+import com.tailrocks.marketplace.grpc.v1.component.FindComponentRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollection;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionInput;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc;
@@ -27,11 +32,13 @@ import io.micronaut.core.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import static com.tailrocks.marketplace.api.client.config.Constants.DEFAULT_TENANT;
 import static com.tailrocks.marketplace.api.client.config.Constants.TENANT_SERVICE_NAME;
+import static com.zhokhov.jambalaya.protobuf.ProtobufConverters.toMoney;
 import static com.zhokhov.jambalaya.tenancy.TenancyUtils.callWithTenant;
 import static com.zhokhov.jambalaya.tenancy.TenancyUtils.getTenantStringOrElse;
 
@@ -41,6 +48,7 @@ public class TailrocksMarketplaceClient {
     private final TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub;
     private final CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
     private final ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub;
+    private final ComponentServiceGrpc.ComponentServiceBlockingStub componentServiceBlockingStub;
 
     @Property(name = DEFAULT_TENANT) String defaultTenant;
 
@@ -48,11 +56,13 @@ public class TailrocksMarketplaceClient {
     public TailrocksMarketplaceClient(
             @Named(TENANT_SERVICE_NAME) TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub,
             CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub,
-            ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub
+            ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub,
+            ComponentServiceGrpc.ComponentServiceBlockingStub componentServiceBlockingStub
     ) {
         this.tenantServiceBlockingStub = tenantServiceBlockingStub;
         this.catalogSectionServiceBlockingStub = catalogSectionServiceBlockingStub;
         this.componentCollectionServiceBlockingStub = componentCollectionServiceBlockingStub;
+        this.componentServiceBlockingStub = componentServiceBlockingStub;
     }
 
     public void provisionTenant(@NonNull String name) {
@@ -68,13 +78,15 @@ public class TailrocksMarketplaceClient {
     }
 
     public CatalogSection createCatalogSection(
-            // TODO make slug auto-generated
-            @NonNull String slug, @NonNull String name, @Nullable String description, @Nullable Integer sortOrder,
+            @Nullable String slug, @NonNull String name, @Nullable String description, @Nullable Integer sortOrder,
             @Nullable IconInput icon
     ) {
         var inputBuilder = CatalogSectionInput.newBuilder()
-                .setSlug(StringValue.of(slug))
                 .setName(StringValue.of(name));
+
+        if (slug != null) {
+            inputBuilder.setSlug(StringValue.of(slug));
+        }
 
         if (description != null) {
             inputBuilder.setDescription(StringValue.of(description));
@@ -217,6 +229,46 @@ public class TailrocksMarketplaceClient {
         return callWithTenant(getTenantString(), () -> componentCollectionServiceBlockingStub
                 .update(request.build())
                 .getItem());
+    }
+
+    public Component createComponent(
+            @NonNull String componentCollectionId, @NonNull String catalogSectionId,
+            @NonNull BigDecimal price, @NonNull String sourceCodeHtml,
+            @Nullable String title, @Nullable String description
+    ) {
+        var inputBuilder = ComponentInput.newBuilder()
+                .setComponentCollectionId(StringValue.of(componentCollectionId))
+                .setCatalogSectionId(StringValue.of(catalogSectionId))
+                .setPrice(toMoney(price, "USD"))
+                .setSourceCodeHtml(StringValue.of(sourceCodeHtml));
+
+        if (title != null) {
+            inputBuilder.setTitle(StringValue.of(title));
+        }
+
+        if (description != null) {
+            inputBuilder.setDescription(StringValue.of(description));
+        }
+
+        return callWithTenant(getTenantString(), () -> componentServiceBlockingStub
+                .create(CreateComponentRequest.newBuilder()
+                        .addItem(inputBuilder.build())
+                        .build())
+                .getItem(0)
+        );
+    }
+
+    public Optional<Component> findComponentById(@NonNull String id) {
+        return callWithTenant(getTenantString(), () -> componentServiceBlockingStub
+                .find(
+                        FindComponentRequest.newBuilder()
+                                .addCriteria(FindComponentRequest.Criteria.newBuilder()
+                                        .addId(id)
+                                        .build())
+                                .build()
+                )
+                .getItemList().stream().findFirst()
+        );
     }
 
     private String getTenantString() {

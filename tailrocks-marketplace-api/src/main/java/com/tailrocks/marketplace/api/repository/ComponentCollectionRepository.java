@@ -111,17 +111,6 @@ public class ComponentCollectionRepository extends AbstractTenantRepository {
         return item;
     }
 
-    @Transactional
-    public void deleteAll() {
-        LOG.warn("Deleting all");
-
-        int records = getDslContext()
-                .delete(COMPONENT_COLLECTION)
-                .execute();
-
-        LOG.info("Deleted {} records", records);
-    }
-
     private Condition generateFindCondition(List<FindComponentCollectionRequest.Criteria> criteriaList) {
         var result = DSL.noCondition();
 

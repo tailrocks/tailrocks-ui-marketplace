@@ -20,22 +20,22 @@ import static java.util.stream.Collectors.toList;
 @Singleton
 public class CatalogSectionGrpcEndpoint extends CatalogSectionServiceGrpc.CatalogSectionServiceImplBase {
 
-    private final CatalogSectionRepository paymentMethodRepository;
-    private final CatalogSectionMapper paymentMethodMapper;
+    private final CatalogSectionRepository catalogSectionRepository;
+    private final CatalogSectionMapper catalogSectionMapper;
 
     public CatalogSectionGrpcEndpoint(
-            CatalogSectionRepository paymentMethodRepository,
-            CatalogSectionMapper paymentMethodMapper
+            CatalogSectionRepository catalogSectionRepository,
+            CatalogSectionMapper catalogSectionMapper
     ) {
-        this.paymentMethodRepository = paymentMethodRepository;
-        this.paymentMethodMapper = paymentMethodMapper;
+        this.catalogSectionRepository = catalogSectionRepository;
+        this.catalogSectionMapper = catalogSectionMapper;
     }
 
     @Override
     public void find(FindCatalogSectionRequest request,
                      StreamObserver<CatalogSectionListResponse> responseObserver) {
-        List<CatalogSection> items = paymentMethodRepository.find(request).stream()
-                .map(paymentMethodMapper::toCatalogSection)
+        List<CatalogSection> items = catalogSectionRepository.find(request).stream()
+                .map(catalogSectionMapper::toCatalogSection)
                 .collect(toList());
 
         responseObserver.onNext(CatalogSectionListResponse.newBuilder()
@@ -48,8 +48,8 @@ public class CatalogSectionGrpcEndpoint extends CatalogSectionServiceGrpc.Catalo
     public void create(CreateCatalogSectionRequest request,
                        StreamObserver<CatalogSectionListResponse> responseObserver) {
         List<CatalogSection> items = request.getItemList().stream()
-                .map(paymentMethodRepository::create)
-                .map(paymentMethodMapper::toCatalogSection)
+                .map(catalogSectionRepository::create)
+                .map(catalogSectionMapper::toCatalogSection)
                 .collect(toList());
 
         responseObserver.onNext(CatalogSectionListResponse.newBuilder()

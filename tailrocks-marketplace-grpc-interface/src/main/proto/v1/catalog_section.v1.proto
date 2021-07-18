@@ -48,15 +48,13 @@ message CreateCatalogSectionRequest {
  */
 
 message CatalogSectionInput {
-  // The slug.
-  google.protobuf.StringValue slug = 1 [
+  // The name.
+  google.protobuf.StringValue name = 1 [
     (validate.rules).message.required = true
   ];
 
-  // The name.
-  google.protobuf.StringValue name = 2 [
-    (validate.rules).message.required = true
-  ];
+  // The slug. Optional, will be generated automatically based on the name.
+  google.protobuf.StringValue slug = 2;
 
   // The description.
   google.protobuf.StringValue description = 3;
