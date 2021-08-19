@@ -35,6 +35,9 @@ dependencies {
     api("com.google.api.grpc:proto-google-common-protos:2.3.2")
 
     compileOnly("jakarta.annotation:jakarta.annotation-api")
+
+    // TODO remove me later
+    compileOnly("javax.annotation:javax.annotation-api")
 }
 
 protobuf {

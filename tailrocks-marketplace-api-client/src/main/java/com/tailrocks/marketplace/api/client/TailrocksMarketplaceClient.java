@@ -28,10 +28,10 @@ import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
