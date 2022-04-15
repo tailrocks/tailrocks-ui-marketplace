@@ -18,8 +18,6 @@ allprojects {
     apply(plugin = "idea")
     apply(plugin = "com.diffplug.spotless")
 
-    apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
-
     group = "com.tailrocks.marketplace"
 
     idea {

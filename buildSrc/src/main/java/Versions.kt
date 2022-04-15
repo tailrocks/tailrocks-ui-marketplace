@@ -27,16 +27,16 @@ object Versions {
     // Libraries
 
     // REMEMBER update micronautVersion in gradle.properties as well
-    const val micronaut = "3.0.0"
+    const val micronaut = "3.4.2"
 
     // UPDATE together with Micronaut
     // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/3.0.0/micronaut-bom-3.0.0.pom
-    const val grpc = "1.38.0"
-    const val protobuf = "3.17.2"
+    const val grpc = "1.45.1"
+    const val protobuf = "3.20.0"
     // end
 
     const val mapstruct = "1.4.2.Final"
-    const val pgv = "0.4.1"
+    const val pgv = "0.6.7"
     const val bson = "4.2.3"
     const val kotest = "4.6.0"
 

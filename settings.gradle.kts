@@ -17,7 +17,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 }
 
-rootProject.name = "tailrocks-marketplace"
+rootProject.name = "tailrocks-ui-marketplace"
 
 include(
     // libraries

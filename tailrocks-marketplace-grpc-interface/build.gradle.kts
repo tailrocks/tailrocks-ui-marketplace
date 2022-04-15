@@ -19,8 +19,8 @@ java {
 
 dependencies {
     // BOM
-    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
-    compileOnly(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    implementation(platform("io.grpc:grpc-bom:${Versions.grpc}"))
+    compileOnly(platform("io.grpc:grpc-bom:${Versions.grpc}"))
 
     // gRPC
     api("io.grpc:grpc-protobuf")
@@ -34,10 +34,8 @@ dependencies {
     // Google
     api("com.google.api.grpc:proto-google-common-protos:2.3.2")
 
-    compileOnly("jakarta.annotation:jakarta.annotation-api")
-
     // TODO remove me later
-    compileOnly("javax.annotation:javax.annotation-api")
+    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 }
 
 protobuf {
