@@ -29,9 +29,6 @@ dependencies {
     api("io.micronaut.sql:micronaut-jooq")
     api("io.micronaut.data:micronaut-data-tx")
 
-    // TODO replace with final version
-    api("io.github.expatiat.micronaut.opentelemetry:opentelemetry:0.2.0-SNAPSHOT")
-
     // MapStruct
     annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
     api("org.mapstruct:mapstruct:${Versions.mapstruct}")

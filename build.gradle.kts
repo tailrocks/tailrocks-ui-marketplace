@@ -6,7 +6,7 @@ plugins {
     id("com.gorylenko.gradle-git-properties") version Versions.gradleGitPropertiesPlugin apply false
 }
 
-val javaVersion = 16
+val javaVersion = 17
 
 java {
     toolchain {
