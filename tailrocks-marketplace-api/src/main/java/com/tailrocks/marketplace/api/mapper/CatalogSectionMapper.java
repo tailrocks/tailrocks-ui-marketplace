@@ -1,6 +1,3 @@
-/*
- * Copyright 2021 Alexey Zhokhov
- */
 package com.tailrocks.marketplace.api.mapper;
 
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSection;

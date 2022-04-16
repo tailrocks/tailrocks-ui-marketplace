@@ -25,19 +25,19 @@ dependencies {
     // Micronaut
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    kapt(enforcedPlatform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    kapt(enforcedPlatform(marketplaceLibs.boms.micronaut))
     kapt("io.micronaut:micronaut-inject-java")
-    kaptTest(enforcedPlatform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    kaptTest(enforcedPlatform(marketplaceLibs.boms.micronaut))
     kaptTest("io.micronaut:micronaut-inject-java")
 
     // Jambalaya
-    implementation("io.github.expatiat.jambalaya:jambalaya-junit-opentelemetry:${Versions.jambalayaJunitOpentelemetry}")
+    implementation(marketplaceLibs.jambalaya.junit.opentelemetry)
 
     // PGV
-    implementation("io.envoyproxy.protoc-gen-validate:pgv-java-grpc:${Versions.pgv}")
+    implementation(marketplaceLibs.pgv.java.grpc)
 
     // Kotest
-    testImplementation("io.kotest:kotest-assertions-core:${Versions.kotest}")
+    testImplementation(marketplaceLibs.kotest.assertions.core)
 
     // Kotlin
     implementation(kotlin("stdlib-jdk8"))

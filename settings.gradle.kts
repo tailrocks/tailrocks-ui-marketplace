@@ -1,20 +1,11 @@
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+apply(from = File(settingsDir, "gradle/repositoriesSettings.gradle.kts"))
 
 dependencyResolutionManagement {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        // uncomment if you need to use snapshot versions
-        maven("https://oss.sonatype.org/content/repositories/snapshots")
-        maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
+    versionCatalogs {
+        create("marketplaceLibs") {
+            from(files("gradle/libs.versions.toml"))
+        }
     }
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 }
 
 rootProject.name = "tailrocks-ui-marketplace"

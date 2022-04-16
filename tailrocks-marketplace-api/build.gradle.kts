@@ -16,7 +16,7 @@ dependencies {
     api(project(":tailrocks-marketplace-grpc-interface"))
 
     // tailrocks
-    api("com.tailrocks.domain:tailrocks-marketplace-jooq:${Versions.tailrocksMarketplaceJooq}")
+    api(marketplaceLibs.tailrocks.marketplace.jooq)
 
     // Micronaut
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
@@ -30,26 +30,26 @@ dependencies {
     api("io.micronaut.data:micronaut-data-tx")
 
     // MapStruct
-    annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
-    api("org.mapstruct:mapstruct:${Versions.mapstruct}")
+    annotationProcessor(marketplaceLibs.mapstruct.processor)
+    api(marketplaceLibs.mapstruct)
 
     // PGV
-    api("io.envoyproxy.protoc-gen-validate:pgv-java-grpc:${Versions.pgv}")
+    api(marketplaceLibs.pgv.java.grpc)
 
     // BSON
-    api("org.mongodb:bson:${Versions.bson}")
+    api(marketplaceLibs.bson)
 
     // Jambalaya
-    annotationProcessor("io.github.expatiat.jambalaya:jambalaya-mapstruct-processor:${Versions.jambalayaMapstructProcessor}")
-    api("io.github.expatiat.jambalaya:jambalaya-checks:${Versions.jambalayaChecks}")
-    api("io.github.expatiat.jambalaya:jambalaya-protobuf:${Versions.jambalayaProtobuf}")
-    api("io.github.expatiat.jambalaya:jambalaya-micronaut-mapstruct-protobuf:${Versions.jambalayaMicronautMapstructProtobuf}")
-    api("io.github.expatiat.jambalaya:jambalaya-opentelemetry:${Versions.jambalayaOpentelemetry}")
-    api("io.github.expatiat.jambalaya:jambalaya-seo:${Versions.jambalayaSeo}")
-    api("io.github.expatiat.jambalaya:jambalaya-tenancy:${Versions.jambalayaTenancy}")
-    api("io.github.expatiat.jambalaya:jambalaya-tenancy-flyway:${Versions.jambalayaTenancyFlyway}")
-    api("io.github.expatiat.jambalaya:jambalaya-tenancy-grpc-interface:${Versions.jambalayaTenancyGrpcInterface}")
-    api("io.github.expatiat.jambalaya:jambalaya-tenancy-jooq:${Versions.jambalayaTenancyJooq}")
+    annotationProcessor(marketplaceLibs.jambalaya.mapstruct.processor)
+    api(marketplaceLibs.jambalaya.checks)
+    api(marketplaceLibs.jambalaya.protobuf)
+    api(marketplaceLibs.jambalaya.micronaut.mapstruct.protobuf)
+    api(marketplaceLibs.jambalaya.opentelemetry)
+    api(marketplaceLibs.jambalaya.seo)
+    api(marketplaceLibs.jambalaya.tenancy)
+    api(marketplaceLibs.jambalaya.tenancy.flyway)
+    api(marketplaceLibs.jambalaya.tenancy.grpc.api)
+    api(marketplaceLibs.jambalaya.tenancy.jooq)
 
     // Logback
     api("ch.qos.logback:logback-classic")

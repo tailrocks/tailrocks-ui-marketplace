@@ -1,6 +1,3 @@
-/*
- * Copyright 2021 Alexey Zhokhov
- */
 package com.tailrocks.marketplace.api.grpc;
 
 import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;

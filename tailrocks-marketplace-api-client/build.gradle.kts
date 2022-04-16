@@ -22,12 +22,12 @@ dependencies {
     api("io.micronaut.grpc:micronaut-grpc-annotation")
 
     // PGV
-    api("io.envoyproxy.protoc-gen-validate:pgv-java-grpc:${Versions.pgv}")
+    api(marketplaceLibs.pgv.java.grpc)
 
     // Jambalaya
-    api("io.github.expatiat.jambalaya:jambalaya-tenancy:${Versions.jambalayaTenancy}")
-    api("io.github.expatiat.jambalaya:jambalaya-tenancy-grpc-interface:${Versions.jambalayaTenancyGrpcInterface}")
-    api("io.github.expatiat.jambalaya:jambalaya-protobuf:${Versions.jambalayaProtobuf}")
+    api(marketplaceLibs.jambalaya.tenancy)
+    api(marketplaceLibs.jambalaya.tenancy.grpc.api)
+    api(marketplaceLibs.jambalaya.protobuf)
 
     // Logback
     api("ch.qos.logback:logback-classic")

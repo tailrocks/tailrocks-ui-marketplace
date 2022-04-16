@@ -1,0 +1,50 @@
+[versions]
+# Project
+tailrocks-marketplace-jooq = "1.0.0"
+
+# Libraries
+bson = "4.2.3"
+grpc = "1.45.1"
+jambalaya-checks = "0.4.0"
+jambalaya-junit-opentelemetry = "0.1.1"
+jambalaya-mapstruct-processor = "0.3.1"
+jambalaya-micronaut-mapstruct-protobuf = "0.3.1"
+jambalaya-opentelemetry = "0.2.0"
+jambalaya-protobuf = "0.4.1"
+jambalaya-seo = "0.4.0"
+jambalaya-tenancy = "0.4.1"
+jambalaya-tenancy-flyway = "0.1.1"
+jambalaya-tenancy-grpc-api = "0.1.0"
+jambalaya-tenancy-jooq = "0.1.1"
+kotest = "4.6.0"
+mapstruct = "1.4.2.Final"
+micronaut = "3.4.2"
+pgv = "0.6.7"
+protobuf = "3.20.0"
+
+[libraries]
+# BOMs
+boms-grpc = { module = "io.grpc:grpc-bom", version.ref = "grpc" }
+boms-micronaut = { module = "io.micronaut:micronaut-bom", version.ref = "micronaut" }
+
+# Project
+tailrocks-marketplace-jooq = { module = "com.tailrocks.domain:tailrocks-marketplace-jooq", version.ref = "tailrocks-marketplace-jooq" }
+
+# Libraries
+bson = { module = "org.mongodb:bson", version.ref = "bson" }
+jambalaya-checks = { module = "io.github.expatiat.jambalaya:jambalaya-checks", version.ref = "jambalaya-checks" }
+jambalaya-junit-opentelemetry = { module = "io.github.expatiat.jambalaya:jambalaya-junit-opentelemetry", version.ref = "jambalaya-junit-opentelemetry" }
+jambalaya-mapstruct-processor = { module = "io.github.expatiat.jambalaya:jambalaya-mapstruct-processor", version.ref = "jambalaya-mapstruct-processor" }
+jambalaya-micronaut-mapstruct-protobuf = { module = "io.github.expatiat.jambalaya:jambalaya-micronaut-mapstruct-protobuf", version.ref = "jambalaya-micronaut-mapstruct-protobuf" }
+jambalaya-opentelemetry = { module = "io.github.expatiat.jambalaya:jambalaya-opentelemetry", version.ref = "jambalaya-opentelemetry" }
+jambalaya-protobuf = { module = "io.github.expatiat.jambalaya:jambalaya-protobuf", version.ref = "jambalaya-protobuf" }
+jambalaya-seo = { module = "io.github.expatiat.jambalaya:jambalaya-seo", version.ref = "jambalaya-seo" }
+jambalaya-tenancy = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy", version.ref = "jambalaya-tenancy" }
+jambalaya-tenancy-flyway = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy-flyway", version.ref = "jambalaya-tenancy-flyway" }
+jambalaya-tenancy-grpc-api = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy-grpc-interface", version.ref = "jambalaya-tenancy-grpc-api" }
+jambalaya-tenancy-jooq = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy-jooq", version.ref = "jambalaya-tenancy-jooq" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+pgv-java-grpc = { module = "io.envoyproxy.protoc-gen-validate:pgv-java-grpc", version.ref = "pgv" }
+pgv-java-stub = { module = "io.envoyproxy.protoc-gen-validate:pgv-java-stub", version.ref = "pgv" }

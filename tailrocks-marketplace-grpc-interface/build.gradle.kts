@@ -19,8 +19,8 @@ java {
 
 dependencies {
     // BOM
-    implementation(platform("io.grpc:grpc-bom:${Versions.grpc}"))
-    compileOnly(platform("io.grpc:grpc-bom:${Versions.grpc}"))
+    implementation(platform(marketplaceLibs.boms.grpc))
+    compileOnly(platform(marketplaceLibs.boms.grpc))
 
     // gRPC
     api("io.grpc:grpc-protobuf")
@@ -29,7 +29,7 @@ dependencies {
     api("io.grpc:grpc-netty")
 
     // PGV
-    api("io.envoyproxy.protoc-gen-validate:pgv-java-stub:${Versions.pgv}")
+    api(marketplaceLibs.pgv.java.stub)
 
     // Google
     api("com.google.api.grpc:proto-google-common-protos:2.3.2")
@@ -40,14 +40,14 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${Versions.protobuf}"
+        artifact = "com.google.protobuf:protoc:${marketplaceLibs.versions.protobuf.get()}"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:${Versions.grpc}"
+            artifact = "io.grpc:protoc-gen-grpc-java:${marketplaceLibs.versions.grpc.get()}"
         }
         id("javapgv") {
-            artifact = "io.envoyproxy.protoc-gen-validate:protoc-gen-validate:${Versions.pgv}"
+            artifact = "io.envoyproxy.protoc-gen-validate:protoc-gen-validate:${marketplaceLibs.versions.pgv.get()}"
         }
     }
     generateProtoTasks {
