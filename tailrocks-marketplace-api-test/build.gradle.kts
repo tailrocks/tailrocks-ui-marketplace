@@ -1,13 +1,14 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version Versions.gradleShadowPlugin
-    id("io.micronaut.application") version Versions.gradleMicronautPlugin
-    kotlin("jvm") version Versions.kotlin
-    kotlin("kapt") version Versions.kotlin
-    kotlin("plugin.allopen") version Versions.kotlin
+    kotlin("jvm")
+    kotlin("kapt")
+    kotlin("plugin.allopen")
+
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.application")
 }
 
 micronaut {
-    version(Versions.micronaut)
+    version(marketplaceLibs.versions.micronaut.get())
     runtime("netty")
     testRuntime("junit5")
     enableNativeImage(false)
@@ -25,10 +26,6 @@ dependencies {
     // Micronaut
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    kapt(enforcedPlatform(marketplaceLibs.boms.micronaut))
-    kapt("io.micronaut:micronaut-inject-java")
-    kaptTest(enforcedPlatform(marketplaceLibs.boms.micronaut))
-    kaptTest("io.micronaut:micronaut-inject-java")
 
     // Jambalaya
     implementation(marketplaceLibs.jambalaya.junit.opentelemetry)
@@ -49,20 +46,4 @@ dependencies {
 
 application {
     mainClass.set("com.tailrocks.example.api.ExampleApiApplication")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
-        javaParameters = true
-    }
-}
-
-tasks {
-    "run" { enabled = false }
-    "runShadow" { enabled = false }
-    "dockerBuild" { enabled = false }
-    "dockerBuildNative" { enabled = false }
-    "nativeImage" { enabled = false }
 }

@@ -7,10 +7,10 @@ import com.google.protobuf.gradle.protoc
 plugins {
     `java-library`
     `maven-publish`
-    id("com.google.protobuf") version Versions.gradleProtobufPlugin
+    id("com.google.protobuf")
 }
 
-version = Versions.tailrocksMarketplace
+version = marketplaceLibs.versions.tailrocks.marketplace.asProvider().get()
 
 java {
     withJavadocJar()
@@ -32,7 +32,7 @@ dependencies {
     api(marketplaceLibs.pgv.java.stub)
 
     // Google
-    api("com.google.api.grpc:proto-google-common-protos:2.3.2")
+    api(marketplaceLibs.proto.google.common.protos)
 
     // TODO remove me later
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")

@@ -1,50 +1,52 @@
 plugins {
-    java
-    idea
-    `maven-publish`
-    id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
-    id("com.gorylenko.gradle-git-properties") version Versions.gradleGitPropertiesPlugin apply false
-}
+    kotlin("jvm") version "1.6.20"
+    kotlin("kapt") version "1.6.20"
+    kotlin("plugin.allopen") version "1.6.20"
 
-val javaVersion = 17
+    // https://plugins.gradle.org/plugin/com.tailrocks.java
+    id("com.tailrocks.java") version "0.1.4"
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(javaVersion))
-    }
+    // https://plugins.gradle.org/plugin/com.tailrocks.spotless
+    id("com.tailrocks.spotless") version "0.1.3"
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.idea
+    id("com.tailrocks.idea") version "0.1.3"
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.versions
+    id("com.tailrocks.versions") version "0.1.4"
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.maven-publish
+    id("com.tailrocks.maven-publish") version "0.1.6" apply false
+
+    // https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
+    id("com.gorylenko.gradle-git-properties") version "2.4.0" apply false
+
+    // https://plugins.gradle.org/plugin/io.micronaut.library
+    id("io.micronaut.library") version "3.3.2" apply false
+
+    // https://plugins.gradle.org/plugin/io.micronaut.application
+    id("io.micronaut.application") version "3.3.2" apply false
+
+    // https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow
+    id("com.github.johnrengelman.shadow") version "7.1.2" apply false
+
+    // https://plugins.gradle.org/plugin/com.google.protobuf
+    id("com.google.protobuf") version "0.8.18" apply false
 }
 
 allprojects {
-    apply(plugin = "idea")
-    apply(plugin = "com.diffplug.spotless")
+    apply(plugin = "com.tailrocks.idea")
+    apply(plugin = "com.tailrocks.spotless")
+    apply(plugin = "com.tailrocks.versions")
 
     group = "com.tailrocks.marketplace"
-
-    idea {
-        module {
-            isDownloadJavadoc = false
-            isDownloadSources = false
-        }
-    }
 
     spotless {
         java {
             licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
-            removeUnusedImports()
-            trimTrailingWhitespace()
-            endWithNewline()
         }
         kotlin {
             licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
-        }
-        kotlinGradle {
-            ktlint()
-        }
-    }
-
-    tasks.withType<JavaCompile> {
-        if (javaVersion >= 9) {
-            options.release.set(javaVersion)
         }
     }
 }
@@ -53,26 +55,7 @@ subprojects {
     apply(plugin = "java")
 
     java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion))
-        }
-
         withJavadocJar()
         withSourcesJar()
-    }
-
-    plugins.withId("maven-publish") {
-        publishing {
-            publications {
-                create<MavenPublication>("mavenJava") {
-                    from(components["java"])
-                    versionMapping {
-                        allVariants {
-                            fromResolutionResult()
-                        }
-                    }
-                }
-            }
-        }
     }
 }

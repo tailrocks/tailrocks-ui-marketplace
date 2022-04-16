@@ -1,9 +1,13 @@
 package com.tailrocks.marketplace.api.client.config;
 
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.component.ComponentServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.component.ComponentServiceGrpc.ComponentServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub;
 import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
+import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc.TenantServiceBlockingStub;
 import io.envoyproxy.pgv.ReflectiveValidatorIndex;
 import io.envoyproxy.pgv.ValidatorIndex;
 import io.envoyproxy.pgv.grpc.ValidatingClientInterceptor;
@@ -26,7 +30,7 @@ public class Configuration {
 
     @Singleton
     @Named(TENANT_SERVICE_NAME)
-    public TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub(
+    public TenantServiceBlockingStub tenantServiceBlockingStub(
             @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
     ) {
         return TenantServiceGrpc
@@ -35,7 +39,7 @@ public class Configuration {
     }
 
     @Singleton
-    public CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub(
+    public CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub(
             @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
     ) {
         return CatalogSectionServiceGrpc
@@ -44,7 +48,7 @@ public class Configuration {
     }
 
     @Singleton
-    public ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub(
+    public ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub(
             @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
     ) {
         return ComponentCollectionServiceGrpc
@@ -53,7 +57,7 @@ public class Configuration {
     }
 
     @Singleton
-    public ComponentServiceGrpc.ComponentServiceBlockingStub componentServiceBlockingStub(
+    public ComponentServiceBlockingStub componentServiceBlockingStub(
             @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
     ) {
         return ComponentServiceGrpc

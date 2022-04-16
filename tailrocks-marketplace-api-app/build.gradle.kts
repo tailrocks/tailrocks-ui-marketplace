@@ -1,10 +1,10 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version Versions.gradleShadowPlugin
-    id("io.micronaut.application") version Versions.gradleMicronautPlugin
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.application")
 }
 
 micronaut {
-    version(Versions.micronaut)
+    version(marketplaceLibs.versions.micronaut.get())
     runtime("netty")
     enableNativeImage(true)
     processing {
@@ -16,8 +16,13 @@ micronaut {
 dependencies {
     // subprojects
     implementation(project(":tailrocks-marketplace-api"))
+
+    // GraalVM
+    compileOnly("org.graalvm.nativeimage:svm")
 }
 
 application {
     mainClass.set("com.tailrocks.marketplace.api.MarketplaceApiApplication")
 }
+
+graalvmNative.toolchainDetection.set(false)

@@ -1,6 +1,7 @@
 [versions]
 # Project
 tailrocks-marketplace-jooq = "1.0.0"
+tailrocks-marketplace = "1.0.0"
 
 # Libraries
 bson = "4.2.3"
@@ -21,6 +22,7 @@ mapstruct = "1.4.2.Final"
 micronaut = "3.4.2"
 pgv = "0.6.7"
 protobuf = "3.20.0"
+common-protos = "2.8.3"
 
 [libraries]
 # BOMs
@@ -48,3 +50,4 @@ mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 pgv-java-grpc = { module = "io.envoyproxy.protoc-gen-validate:pgv-java-grpc", version.ref = "pgv" }
 pgv-java-stub = { module = "io.envoyproxy.protoc-gen-validate:pgv-java-stub", version.ref = "pgv" }
+proto-google-common-protos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "common-protos" }

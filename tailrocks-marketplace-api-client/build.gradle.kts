@@ -1,13 +1,13 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("io.micronaut.library") version Versions.gradleMicronautPlugin
+    id("io.micronaut.library")
 }
 
-version = Versions.tailrocksMarketplace
+version = marketplaceLibs.versions.tailrocks.marketplace.asProvider().get()
 
 micronaut {
-    version(Versions.micronaut)
+    version(marketplaceLibs.versions.micronaut.get())
     processing {
         incremental(true)
         annotations("com.tailrocks.marketplace.api.*")

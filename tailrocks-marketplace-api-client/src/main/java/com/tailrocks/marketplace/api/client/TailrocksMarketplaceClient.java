@@ -4,24 +4,24 @@ import com.google.protobuf.StringValue;
 import com.google.protobuf.UInt32Value;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSection;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionInput;
-import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CreateCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput;
 import com.tailrocks.marketplace.grpc.v1.component.Component;
 import com.tailrocks.marketplace.grpc.v1.component.ComponentInput;
-import com.tailrocks.marketplace.grpc.v1.component.ComponentServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.component.ComponentServiceGrpc.ComponentServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.component.CreateComponentRequest;
 import com.tailrocks.marketplace.grpc.v1.component.FindComponentRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollection;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionInput;
-import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc;
+import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.component.collection.CreateComponentCollectionRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.FindComponentCollectionRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.UpdateComponentCollectionRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
-import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
+import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc.TenantServiceBlockingStub;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
@@ -42,19 +42,19 @@ import static com.zhokhov.jambalaya.tenancy.TenancyUtils.getTenantStringOrElse;
 @Singleton
 public class TailrocksMarketplaceClient {
 
-    private final TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub;
-    private final CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
-    private final ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub;
-    private final ComponentServiceGrpc.ComponentServiceBlockingStub componentServiceBlockingStub;
+    private final TenantServiceBlockingStub tenantServiceBlockingStub;
+    private final CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub;
+    private final ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub;
+    private final ComponentServiceBlockingStub componentServiceBlockingStub;
 
     @Property(name = DEFAULT_TENANT) String defaultTenant;
 
     @Inject
     public TailrocksMarketplaceClient(
-            @Named(TENANT_SERVICE_NAME) TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub,
-            CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub,
-            ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub,
-            ComponentServiceGrpc.ComponentServiceBlockingStub componentServiceBlockingStub
+            @Named(TENANT_SERVICE_NAME) TenantServiceBlockingStub tenantServiceBlockingStub,
+            CatalogSectionServiceBlockingStub catalogSectionServiceBlockingStub,
+            ComponentCollectionServiceBlockingStub componentCollectionServiceBlockingStub,
+            ComponentServiceBlockingStub componentServiceBlockingStub
     ) {
         this.tenantServiceBlockingStub = tenantServiceBlockingStub;
         this.catalogSectionServiceBlockingStub = catalogSectionServiceBlockingStub;

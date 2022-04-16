@@ -1,9 +1,9 @@
 plugins {
-    id("io.micronaut.library") version Versions.gradleMicronautPlugin
+    id("io.micronaut.library")
 }
 
 micronaut {
-    version(Versions.micronaut)
+    version(marketplaceLibs.versions.micronaut.get())
     runtime("netty")
     processing {
         incremental(true)
@@ -56,4 +56,8 @@ dependencies {
 
     // TODO remove me later
     api("javax.inject:javax.inject:1")
+
+    // OpenTelemetry
+    // TODO cleanup
+    api("io.opentelemetry.instrumentation:opentelemetry-jdbc:1.12.1-alpha")
 }
