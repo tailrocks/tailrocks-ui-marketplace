@@ -32,7 +32,7 @@ dependencies {
     api(marketplaceLibs.pgv.java.stub)
 
     // Google
-    api("com.google.api.grpc:proto-google-common-protos:2.3.2")
+    api("com.google.api.grpc:proto-google-common-protos:2.8.3")
 
     // TODO remove me later
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")
