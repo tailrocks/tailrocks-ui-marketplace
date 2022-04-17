@@ -6,17 +6,17 @@ tailrocks-marketplace = "1.0.0"
 # Libraries
 bson = "4.5.1"
 grpc = "1.45.1"
-jambalaya-checks = "0.6.0"
-jambalaya-junit-opentelemetry = "0.4.0"
-jambalaya-mapstruct-processor = "0.5.0"
-jambalaya-micronaut-mapstruct-protobuf = "0.5.0"
-jambalaya-opentelemetry = "0.4.0"
-jambalaya-protobuf = "0.7.0"
-jambalaya-seo = "0.6.0"
-jambalaya-tenancy = "0.6.0"
-jambalaya-tenancy-flyway = "0.3.0"
-jambalaya-tenancy-grpc-api = "0.3.0"
-jambalaya-tenancy-jooq = "0.3.0"
+jambalaya-checks = "0.7.0"
+jambalaya-junit-opentelemetry = "0.5.0"
+jambalaya-mapstruct-processor = "0.6.0"
+jambalaya-micronaut-mapstruct-protobuf = "0.6.0"
+jambalaya-opentelemetry = "0.5.0"
+jambalaya-protobuf = "0.8.0"
+jambalaya-seo = "0.7.0"
+jambalaya-tenancy = "0.7.0"
+jambalaya-tenancy-flyway = "0.4.0"
+jambalaya-tenancy-grpc-api = "0.4.0"
+jambalaya-tenancy-jooq = "0.4.0"
 kotest = "5.2.3"
 mapstruct = "1.4.2.Final"
 micronaut = "3.4.2"
@@ -34,17 +34,17 @@ tailrocks-marketplace-jooq = { module = "com.tailrocks.domain:tailrocks-marketpl
 
 # Libraries
 bson = { module = "org.mongodb:bson", version.ref = "bson" }
-jambalaya-checks = { module = "io.github.expatiat.jambalaya:jambalaya-checks", version.ref = "jambalaya-checks" }
-jambalaya-junit-opentelemetry = { module = "io.github.expatiat.jambalaya:jambalaya-junit-opentelemetry", version.ref = "jambalaya-junit-opentelemetry" }
-jambalaya-mapstruct-processor = { module = "io.github.expatiat.jambalaya:jambalaya-mapstruct-processor", version.ref = "jambalaya-mapstruct-processor" }
-jambalaya-micronaut-mapstruct-protobuf = { module = "io.github.expatiat.jambalaya:jambalaya-micronaut-mapstruct-protobuf", version.ref = "jambalaya-micronaut-mapstruct-protobuf" }
-jambalaya-opentelemetry = { module = "io.github.expatiat.jambalaya:jambalaya-opentelemetry", version.ref = "jambalaya-opentelemetry" }
-jambalaya-protobuf = { module = "io.github.expatiat.jambalaya:jambalaya-protobuf", version.ref = "jambalaya-protobuf" }
-jambalaya-seo = { module = "io.github.expatiat.jambalaya:jambalaya-seo", version.ref = "jambalaya-seo" }
-jambalaya-tenancy = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy", version.ref = "jambalaya-tenancy" }
-jambalaya-tenancy-flyway = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy-flyway", version.ref = "jambalaya-tenancy-flyway" }
-jambalaya-tenancy-grpc-api = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy-grpc-interface", version.ref = "jambalaya-tenancy-grpc-api" }
-jambalaya-tenancy-jooq = { module = "io.github.expatiat.jambalaya:jambalaya-tenancy-jooq", version.ref = "jambalaya-tenancy-jooq" }
+jambalaya-checks = { module = "com.tailrocks.jambalaya:jambalaya-checks", version.ref = "jambalaya-checks" }
+jambalaya-junit-opentelemetry = { module = "com.tailrocks.jambalaya:jambalaya-junit-opentelemetry", version.ref = "jambalaya-junit-opentelemetry" }
+jambalaya-mapstruct-processor = { module = "com.tailrocks.jambalaya:jambalaya-mapstruct-processor", version.ref = "jambalaya-mapstruct-processor" }
+jambalaya-micronaut-mapstruct-protobuf = { module = "com.tailrocks.jambalaya:jambalaya-micronaut-mapstruct-protobuf", version.ref = "jambalaya-micronaut-mapstruct-protobuf" }
+jambalaya-opentelemetry = { module = "com.tailrocks.jambalaya:jambalaya-opentelemetry", version.ref = "jambalaya-opentelemetry" }
+jambalaya-protobuf = { module = "com.tailrocks.jambalaya:jambalaya-protobuf", version.ref = "jambalaya-protobuf" }
+jambalaya-seo = { module = "com.tailrocks.jambalaya:jambalaya-seo", version.ref = "jambalaya-seo" }
+jambalaya-tenancy = { module = "com.tailrocks.jambalaya:jambalaya-tenancy", version.ref = "jambalaya-tenancy" }
+jambalaya-tenancy-flyway = { module = "com.tailrocks.jambalaya:jambalaya-tenancy-flyway", version.ref = "jambalaya-tenancy-flyway" }
+jambalaya-tenancy-grpc-api = { module = "com.tailrocks.jambalaya:jambalaya-tenancy-grpc-interface", version.ref = "jambalaya-tenancy-grpc-api" }
+jambalaya-tenancy-jooq = { module = "com.tailrocks.jambalaya:jambalaya-tenancy-jooq", version.ref = "jambalaya-tenancy-jooq" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }

@@ -2,14 +2,14 @@ package com.tailrocks.marketplace.api
 
 import com.google.protobuf.StringValue
 import com.google.protobuf.UInt32Value
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetry
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
+import com.tailrocks.jambalaya.tenancy.TenancyUtils.runWithTestingTenant
 import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
 import com.tailrocks.marketplace.api.repository.CatalogSectionRepository
 import com.tailrocks.marketplace.grpc.v1.catalog.section.IconInput
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
-import com.zhokhov.jambalaya.tenancy.TenancyUtils.runWithTestingTenant
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldNotBeNull

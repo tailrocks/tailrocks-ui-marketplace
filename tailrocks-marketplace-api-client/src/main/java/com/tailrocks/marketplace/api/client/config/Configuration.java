@@ -1,13 +1,13 @@
 package com.tailrocks.marketplace.api.client.config;
 
+import com.tailrocks.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
+import com.tailrocks.jambalaya.grpc.v1.tenant.TenantServiceGrpc.TenantServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.component.ComponentServiceGrpc;
 import com.tailrocks.marketplace.grpc.v1.component.ComponentServiceGrpc.ComponentServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionServiceGrpc.ComponentCollectionServiceBlockingStub;
-import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
-import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc.TenantServiceBlockingStub;
 import io.envoyproxy.pgv.ReflectiveValidatorIndex;
 import io.envoyproxy.pgv.ValidatorIndex;
 import io.envoyproxy.pgv.grpc.ValidatingClientInterceptor;

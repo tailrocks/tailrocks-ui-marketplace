@@ -1,11 +1,11 @@
 package com.tailrocks.marketplace.api.repository;
 
+import com.tailrocks.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import com.tailrocks.marketplace.api.mapper.ComponentCollectionMapper;
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectionInput;
 import com.tailrocks.marketplace.grpc.v1.component.collection.FindComponentCollectionRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.UpdateComponentCollectionRequest;
 import com.tailrocks.marketplace.jooq.tables.records.ComponentCollectionRecord;
-import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
@@ -21,10 +21,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
+import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
+import static com.tailrocks.jambalaya.seo.SlugUtils.generateSlug;
 import static com.tailrocks.marketplace.jooq.Tables.COMPONENT_COLLECTION;
-import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
-import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
-import static com.zhokhov.jambalaya.seo.SlugUtils.generateSlug;
 import static org.jooq.impl.DSL.noCondition;
 
 /**

@@ -2,6 +2,9 @@ package com.tailrocks.marketplace.api.client;
 
 import com.google.protobuf.StringValue;
 import com.google.protobuf.UInt32Value;
+import com.tailrocks.jambalaya.grpc.v1.tenant.DropTenantRequest;
+import com.tailrocks.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
+import com.tailrocks.jambalaya.grpc.v1.tenant.TenantServiceGrpc.TenantServiceBlockingStub;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSection;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionInput;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionServiceGrpc.CatalogSectionServiceBlockingStub;
@@ -19,9 +22,6 @@ import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollectio
 import com.tailrocks.marketplace.grpc.v1.component.collection.CreateComponentCollectionRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.FindComponentCollectionRequest;
 import com.tailrocks.marketplace.grpc.v1.component.collection.UpdateComponentCollectionRequest;
-import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
-import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
-import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc.TenantServiceBlockingStub;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
@@ -33,11 +33,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tailrocks.jambalaya.protobuf.ProtobufConverters.toMoney;
+import static com.tailrocks.jambalaya.tenancy.TenancyUtils.callWithTenant;
+import static com.tailrocks.jambalaya.tenancy.TenancyUtils.getTenantStringOrElse;
 import static com.tailrocks.marketplace.api.client.config.Constants.DEFAULT_TENANT;
 import static com.tailrocks.marketplace.api.client.config.Constants.TENANT_SERVICE_NAME;
-import static com.zhokhov.jambalaya.protobuf.ProtobufConverters.toMoney;
-import static com.zhokhov.jambalaya.tenancy.TenancyUtils.callWithTenant;
-import static com.zhokhov.jambalaya.tenancy.TenancyUtils.getTenantStringOrElse;
 
 @Singleton
 public class TailrocksMarketplaceClient {

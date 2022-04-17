@@ -1,11 +1,11 @@
 package com.tailrocks.marketplace.api
 
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetry
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN_
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
+import com.tailrocks.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
 import com.tailrocks.marketplace.api.client.TailrocksMarketplaceClient
 import com.tailrocks.marketplace.grpc.v1.component.collection.ComponentCollection
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.GIVEN_
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.ints.shouldBeZero

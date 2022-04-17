@@ -1,12 +1,12 @@
 package com.tailrocks.marketplace.api.grpc;
 
-import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
-import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantResponse;
-import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
-import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantResponse;
-import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
-import com.zhokhov.jambalaya.grpc.v1.tenant.TenantStatus;
-import com.zhokhov.jambalaya.tenancy.flyway.TenantFlywayMigrator;
+import com.tailrocks.jambalaya.grpc.v1.tenant.DropTenantRequest;
+import com.tailrocks.jambalaya.grpc.v1.tenant.DropTenantResponse;
+import com.tailrocks.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
+import com.tailrocks.jambalaya.grpc.v1.tenant.ProvisionTenantResponse;
+import com.tailrocks.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
+import com.tailrocks.jambalaya.grpc.v1.tenant.TenantStatus;
+import com.tailrocks.jambalaya.tenancy.flyway.TenantFlywayMigrator;
 import io.grpc.stub.StreamObserver;
 import io.micronaut.context.annotation.Property;
 import org.flywaydb.core.api.FlywayException;

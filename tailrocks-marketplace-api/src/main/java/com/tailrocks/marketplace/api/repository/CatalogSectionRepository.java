@@ -1,10 +1,10 @@
 package com.tailrocks.marketplace.api.repository;
 
+import com.tailrocks.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import com.tailrocks.marketplace.api.mapper.CatalogSectionMapper;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionInput;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.FindCatalogSectionRequest;
 import com.tailrocks.marketplace.jooq.tables.records.CatalogSectionRecord;
-import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
@@ -19,9 +19,9 @@ import javax.inject.Singleton;
 import javax.transaction.Transactional;
 import java.util.List;
 
+import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
+import static com.tailrocks.jambalaya.seo.SlugUtils.generateSlug;
 import static com.tailrocks.marketplace.jooq.tables.CatalogSection.CATALOG_SECTION;
-import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
-import static com.zhokhov.jambalaya.seo.SlugUtils.generateSlug;
 import static org.jooq.impl.DSL.noCondition;
 
 @Singleton

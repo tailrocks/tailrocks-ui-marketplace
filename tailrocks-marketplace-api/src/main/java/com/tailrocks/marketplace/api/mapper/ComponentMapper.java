@@ -1,10 +1,10 @@
 package com.tailrocks.marketplace.api.mapper;
 
 import com.google.type.Money;
+import com.tailrocks.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import com.tailrocks.marketplace.grpc.v1.component.Component;
 import com.tailrocks.marketplace.grpc.v1.component.ComponentInput;
 import com.tailrocks.marketplace.jooq.tables.records.ComponentRecord;
-import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,8 +14,8 @@ import org.mapstruct.ReportingPolicy;
 
 import java.math.BigDecimal;
 
-import static com.zhokhov.jambalaya.protobuf.ProtobufConverters.toBigDecimal;
-import static com.zhokhov.jambalaya.protobuf.ProtobufConverters.toMoney;
+import static com.tailrocks.jambalaya.protobuf.ProtobufConverters.toBigDecimal;
+import static com.tailrocks.jambalaya.protobuf.ProtobufConverters.toMoney;
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 /**

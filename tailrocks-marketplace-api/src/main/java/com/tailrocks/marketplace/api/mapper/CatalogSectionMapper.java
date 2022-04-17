@@ -1,9 +1,9 @@
 package com.tailrocks.marketplace.api.mapper;
 
+import com.tailrocks.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSection;
 import com.tailrocks.marketplace.grpc.v1.catalog.section.CatalogSectionInput;
 import com.tailrocks.marketplace.jooq.tables.records.CatalogSectionRecord;
-import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
