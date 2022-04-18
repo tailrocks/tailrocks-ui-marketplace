@@ -29,6 +29,10 @@ dependencies {
     api("io.micronaut.sql:micronaut-jooq")
     api("io.micronaut.data:micronaut-data-tx")
 
+    api("io.micronaut.tracing:micronaut-tracing-opentelemetry:4.0.4-SNAPSHOT")
+    api("io.micronaut.tracing:micronaut-tracing-annotation:4.0.4-SNAPSHOT")
+    api("io.micronaut.tracing:micronaut-tracing-core:4.0.4-SNAPSHOT")
+
     // MapStruct
     annotationProcessor(marketplaceLibs.mapstruct.processor)
     api(marketplaceLibs.mapstruct)
@@ -59,5 +63,8 @@ dependencies {
 
     // OpenTelemetry
     // TODO cleanup
+    api("io.opentelemetry:opentelemetry-sdk:1.13.0")
+    api("io.opentelemetry:opentelemetry-sdk-trace:1.13.0")
+    api("io.opentelemetry:opentelemetry-exporter-otlp-trace:1.13.0")
     api("io.opentelemetry.instrumentation:opentelemetry-jdbc:1.12.1-alpha")
 }
