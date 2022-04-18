@@ -10,7 +10,7 @@ plugins {
 micronaut {
     version(marketplaceLibs.versions.micronaut.get())
     runtime("netty")
-    testRuntime("junit5")
+    testRuntime("kotest")
     enableNativeImage(false)
     processing {
         incremental(true)

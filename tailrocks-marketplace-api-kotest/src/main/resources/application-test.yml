@@ -1,0 +1,12 @@
+micronaut:
+  server:
+    port: ${random.port}
+grpc:
+  server:
+    port: ${random.port}
+tailrocks:
+  client:
+    marketplace:
+      default-tenant: testing
+      # io.micronaut.grpc.server.GrpcServerChannel.NAME
+      grpc-channel: grpc-server

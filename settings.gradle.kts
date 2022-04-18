@@ -20,5 +20,6 @@ include(
     ":tailrocks-marketplace-api-app",
 
     // tests
+    ":tailrocks-marketplace-api-kotest",
     ":tailrocks-marketplace-api-test"
 )
