@@ -31,7 +31,7 @@ dependencies {
 
     api("io.micronaut.tracing:micronaut-tracing-opentelemetry:4.0.4-SNAPSHOT")
     api("io.micronaut.tracing:micronaut-tracing-annotation:4.0.4-SNAPSHOT")
-    api("io.micronaut.tracing:micronaut-tracing-core:4.0.4-SNAPSHOT")
+    api("io.micronaut.tracing:micronaut-tracing-core:4.1.1")
 
     // MapStruct
     annotationProcessor(marketplaceLibs.mapstruct.processor)
