@@ -28,14 +28,8 @@ dependencies {
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
 
-    // Jambalaya
-    implementation(marketplaceLibs.jambalaya.junit.opentelemetry)
-
     // PGV
     implementation(marketplaceLibs.pgv.java.grpc)
-
-    // Kotest
-    testImplementation("io.kotest:kotest-assertions-core-jvm")
 
     // Kotlin
     implementation(kotlin("stdlib-jdk8"))

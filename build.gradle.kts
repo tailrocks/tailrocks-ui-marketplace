@@ -53,12 +53,3 @@ allprojects {
         }
     }
 }
-
-subprojects {
-    apply(plugin = "java")
-
-    java {
-        withJavadocJar()
-        withSourcesJar()
-    }
-}

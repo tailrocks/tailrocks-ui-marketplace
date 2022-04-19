@@ -6,6 +6,11 @@ plugins {
 
 version = marketplaceLibs.versions.tailrocks.marketplace.asProvider().get()
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 micronaut {
     version(marketplaceLibs.versions.micronaut.get())
     processing {
