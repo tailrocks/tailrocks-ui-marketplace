@@ -1,7 +1,6 @@
 plugins {
-    `java-library`
-    `maven-publish`
     id("io.micronaut.library")
+    id("com.tailrocks.maven-publish")
 }
 
 version = marketplaceLibs.versions.tailrocks.marketplace.asProvider().get()

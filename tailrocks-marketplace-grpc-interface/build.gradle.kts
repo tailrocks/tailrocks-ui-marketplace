@@ -6,8 +6,8 @@ import com.google.protobuf.gradle.protoc
 
 plugins {
     `java-library`
-    `maven-publish`
     id("com.google.protobuf")
+    id("com.tailrocks.maven-publish")
 }
 
 version = marketplaceLibs.versions.tailrocks.marketplace.asProvider().get()
