@@ -17,9 +17,11 @@ class TenantIntegrationTests(
         context("tenant does not exist") {
             val tenantName = "test${System.currentTimeMillis()}"
 
-            runWithTenant(tenantName) {
-                assertThrows<StatusRuntimeException> {
-                    tailrocksMarketplaceClient.findAllCatalogSection()
+            should("throws an error - tenant does not exist") {
+                runWithTenant(tenantName) {
+                    assertThrows<StatusRuntimeException> {
+                        tailrocksMarketplaceClient.findAllCatalogSection()
+                    }
                 }
             }
 
