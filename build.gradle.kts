@@ -1,7 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.6.20"
-    kotlin("kapt") version "1.6.20"
-    kotlin("plugin.allopen") version "1.6.20"
+    kotlin("jvm") version "1.6.21"
+    kotlin("kapt") version "1.6.21"
+    kotlin("plugin.allopen") version "1.6.21"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.java
     id("com.tailrocks.java") version "0.1.4"
