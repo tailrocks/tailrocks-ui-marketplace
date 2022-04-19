@@ -8,7 +8,6 @@ import com.tailrocks.marketplace.jooq.tables.records.ComponentRecord;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
-import org.bson.types.ObjectId;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.JSONB;
@@ -19,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 import static com.tailrocks.marketplace.jooq.tables.Component.COMPONENT;
@@ -69,7 +69,7 @@ public class ComponentRepository extends AbstractTenantRepository {
         item.setRendering(JSONB.valueOf(null));
         // end TODO remove me
 
-        item.setId(ObjectId.get().toHexString());
+        item.setId(UUID.randomUUID());
         item.store();
 
         LOG.info("Created {}", item.getId());

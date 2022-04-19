@@ -4,7 +4,6 @@ tailrocks-marketplace-jooq = "1.0.0"
 tailrocks-marketplace = "1.0.0"
 
 # Libraries
-bson = "4.6.0"
 grpc = "1.45.1"
 jambalaya-checks = "0.7.0"
 jambalaya-junit-opentelemetry = "0.5.0"
@@ -32,7 +31,6 @@ boms-micronaut = { module = "io.micronaut:micronaut-bom", version.ref = "microna
 tailrocks-marketplace-jooq = { module = "com.tailrocks.domain:tailrocks-marketplace-jooq", version.ref = "tailrocks-marketplace-jooq" }
 
 # Libraries
-bson = { module = "org.mongodb:bson", version.ref = "bson" }
 jambalaya-checks = { module = "com.tailrocks.jambalaya:jambalaya-checks", version.ref = "jambalaya-checks" }
 jambalaya-junit-opentelemetry = { module = "com.tailrocks.jambalaya:jambalaya-junit-opentelemetry", version.ref = "jambalaya-junit-opentelemetry" }
 jambalaya-mapstruct-processor = { module = "com.tailrocks.jambalaya:jambalaya-mapstruct-processor", version.ref = "jambalaya-mapstruct-processor" }

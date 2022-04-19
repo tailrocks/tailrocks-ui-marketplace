@@ -8,7 +8,6 @@ import io.kotest.matchers.nulls.beNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNot
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
-import org.bson.types.ObjectId
 import java.lang.System.currentTimeMillis
 import java.util.*
 
@@ -38,7 +37,7 @@ class ComponentCollectionIntegrationTests(
         }
 
         context("find by unknown id") {
-            val givenId = ObjectId().toHexString()
+            val givenId = UUID.randomUUID().toString()
 
             val item = tailrocksMarketplaceClient.findComponentCollectionById(givenId)
 

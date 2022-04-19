@@ -40,9 +40,6 @@ dependencies {
     // PGV
     api(marketplaceLibs.pgv.java.grpc)
 
-    // BSON
-    api(marketplaceLibs.bson)
-
     // Jambalaya
     annotationProcessor(marketplaceLibs.jambalaya.mapstruct.processor)
     api(marketplaceLibs.jambalaya.checks)

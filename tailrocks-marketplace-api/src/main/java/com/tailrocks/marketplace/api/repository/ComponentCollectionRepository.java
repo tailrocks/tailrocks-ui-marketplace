@@ -9,7 +9,6 @@ import com.tailrocks.marketplace.jooq.tables.records.ComponentCollectionRecord;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
-import org.bson.types.ObjectId;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -20,6 +19,7 @@ import javax.inject.Singleton;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
@@ -52,7 +52,7 @@ public class ComponentCollectionRepository extends AbstractTenantRepository {
 
         return getDslContext()
                 .selectFrom(COMPONENT_COLLECTION)
-                .where(COMPONENT_COLLECTION.ID.eq(id))
+                .where(COMPONENT_COLLECTION.ID.eq(UUID.fromString(id)))
                 .fetchOptional();
     }
 
@@ -81,7 +81,7 @@ public class ComponentCollectionRepository extends AbstractTenantRepository {
             item.setSlug(generateSlug(item.getName()));
         }
 
-        item.setId(ObjectId.get().toHexString());
+        item.setId(UUID.randomUUID());
         item.store();
 
         LOG.info("Created {}", item.getId());
