@@ -21,5 +21,5 @@ include(
 
     // tests
     ":tailrocks-marketplace-api-kotest",
-    ":tailrocks-marketplace-api-test"
+    //":tailrocks-marketplace-api-test"
 )

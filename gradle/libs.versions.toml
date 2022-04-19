@@ -17,7 +17,6 @@ jambalaya-tenancy = "0.7.0"
 jambalaya-tenancy-flyway = "0.4.0"
 jambalaya-tenancy-grpc-api = "0.4.0"
 jambalaya-tenancy-jooq = "0.4.0"
-kotest = "5.2.3"
 mapstruct = "1.4.2.Final"
 micronaut = "3.4.2"
 pgv = "0.6.7"
@@ -45,7 +44,6 @@ jambalaya-tenancy = { module = "com.tailrocks.jambalaya:jambalaya-tenancy", vers
 jambalaya-tenancy-flyway = { module = "com.tailrocks.jambalaya:jambalaya-tenancy-flyway", version.ref = "jambalaya-tenancy-flyway" }
 jambalaya-tenancy-grpc-api = { module = "com.tailrocks.jambalaya:jambalaya-tenancy-grpc-interface", version.ref = "jambalaya-tenancy-grpc-api" }
 jambalaya-tenancy-jooq = { module = "com.tailrocks.jambalaya:jambalaya-tenancy-jooq", version.ref = "jambalaya-tenancy-jooq" }
-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 pgv-java-grpc = { module = "io.envoyproxy.protoc-gen-validate:pgv-java-grpc", version.ref = "pgv" }
