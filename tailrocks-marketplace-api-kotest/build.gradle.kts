@@ -5,6 +5,7 @@ plugins {
 
     id("com.github.johnrengelman.shadow")
     id("io.micronaut.application")
+    id("com.adarshr.test-logger")
 }
 
 micronaut {
