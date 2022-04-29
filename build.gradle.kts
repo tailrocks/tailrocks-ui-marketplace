@@ -25,7 +25,7 @@ plugins {
     id("io.micronaut.library") version "3.3.2" apply false
 
     // https://plugins.gradle.org/plugin/io.micronaut.application
-    id("io.micronaut.application") version "3.3.2" apply false
+    id("io.micronaut.application") version "3.4.0" apply false
 
     // https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
