@@ -19,7 +19,7 @@ plugins {
     id("com.tailrocks.maven-publish") version "0.1.6" apply false
 
     // https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
-    id("com.gorylenko.gradle-git-properties") version "2.4.0" apply false
+    id("com.gorylenko.gradle-git-properties") version "2.4.1" apply false
 
     // https://plugins.gradle.org/plugin/io.micronaut.library
     id("io.micronaut.library") version "3.4.0" apply false
