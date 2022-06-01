@@ -22,7 +22,7 @@ plugins {
     id("com.gorylenko.gradle-git-properties") version "2.4.1" apply false
 
     // https://plugins.gradle.org/plugin/io.micronaut.library
-    id("io.micronaut.library") version "3.4.0" apply false
+    id("io.micronaut.library") version "3.4.1" apply false
 
     // https://plugins.gradle.org/plugin/io.micronaut.application
     id("io.micronaut.application") version "3.4.0" apply false
