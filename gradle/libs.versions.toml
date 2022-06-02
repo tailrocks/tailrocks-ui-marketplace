@@ -4,7 +4,7 @@ tailrocks-marketplace-jooq = "1.0.0"
 tailrocks-marketplace = "1.0.0"
 
 # Libraries
-grpc = "1.46.0"
+grpc = "1.47.0"
 jambalaya-checks = "0.7.1"
 jambalaya-junit-opentelemetry = "0.5.1"
 jambalaya-mapstruct-processor = "0.6.1"
