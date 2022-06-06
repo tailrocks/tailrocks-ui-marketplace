@@ -62,6 +62,6 @@ dependencies {
     // TODO cleanup
     api("io.opentelemetry:opentelemetry-sdk:1.13.0")
     api("io.opentelemetry:opentelemetry-sdk-trace:1.14.0")
-    api("io.opentelemetry:opentelemetry-exporter-otlp-trace:1.13.0")
+    api("io.opentelemetry:opentelemetry-exporter-otlp-trace:1.14.0")
     api("io.opentelemetry.instrumentation:opentelemetry-jdbc:1.12.1-alpha")
 }
