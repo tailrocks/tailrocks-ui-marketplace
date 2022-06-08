@@ -19,8 +19,7 @@ java {
 
 dependencies {
     // BOM
-    implementation(platform(marketplaceLibs.boms.grpc))
-    compileOnly(platform(marketplaceLibs.boms.grpc))
+    api(platform(marketplaceLibs.boms.grpc))
 
     // gRPC
     api("io.grpc:grpc-protobuf")

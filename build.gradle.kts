@@ -3,6 +3,9 @@ plugins {
     kotlin("kapt") version "1.6.21"
     kotlin("plugin.allopen") version "1.6.21"
 
+    // TODO temp workaround: https://github.com/micronaut-projects/micronaut-gradle-plugin/issues/363
+    id("com.bmuschko.docker-remote-api") version "7.4.0"
+
     // https://plugins.gradle.org/plugin/com.tailrocks.java
     id("com.tailrocks.java") version "0.1.4"
 

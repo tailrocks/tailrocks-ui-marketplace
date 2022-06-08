@@ -26,3 +26,9 @@ application {
 }
 
 graalvmNative.toolchainDetection.set(false)
+
+tasks {
+    dockerfile {
+        baseImage("eclipse-temurin:17-jammy")
+    }
+}
