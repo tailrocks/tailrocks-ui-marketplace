@@ -34,7 +34,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
 
     // https://plugins.gradle.org/plugin/com.google.protobuf
-    id("com.google.protobuf") version "0.8.18" apply false
+    id("com.google.protobuf") version "0.8.19" apply false
 
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
     id("com.adarshr.test-logger") version "3.2.0" apply false
