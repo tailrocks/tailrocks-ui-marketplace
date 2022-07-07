@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("kapt") version "1.6.21"
-    kotlin("plugin.allopen") version "1.6.21"
+    kotlin("plugin.allopen") version "1.7.10"
 
     // TODO temp workaround: https://github.com/micronaut-projects/micronaut-gradle-plugin/issues/363
     id("com.bmuschko.docker-remote-api") version "7.4.0"
