@@ -20,7 +20,7 @@ mapstruct = "1.5.2.Final"
 micronaut = "3.5.3"
 pgv = "0.6.7"
 protobuf = "3.20.0"
-common-protos = "2.9.1"
+common-protos = "2.9.2"
 
 [libraries]
 # BOMs
